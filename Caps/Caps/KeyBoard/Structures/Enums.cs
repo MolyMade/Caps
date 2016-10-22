@@ -1,5 +1,5 @@
 ﻿
-namespace Caps.KeyBoard
+namespace Caps.KeyBoard.Structures
 {
     public enum KeyboardMessages
     {

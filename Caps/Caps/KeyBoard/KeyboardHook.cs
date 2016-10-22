@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
 {
     public sealed class KeyboardHook : IDisposable
     {
-        #region Custom Events
-
         public event EventHandler<KeyboardHookEventArgs> KeyDown;
 
         private void OnKeyDown(KeyboardHookEventArgs e)
@@ -30,7 +29,6 @@ namespace Caps.KeyBoard
 	        KeyEvent?.Invoke(this, e);
         }
 
-	    #endregion
 
         /// <summary>
         /// The hook Id we create. This is stored so we can unhook later.
@@ -46,7 +44,7 @@ namespace Caps.KeyBoard
 
         public void Hook()
         {
-            hookId = Win32.SetWindowsHook(Win32.Hooks.WH_KEYBOARD_LL, callback);
+            hookId = Win32.SetWindowsHook(HookType.WH_KEYBOARD_LL, callback);
             hooked = true;
         }
 

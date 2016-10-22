@@ -63,13 +63,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="KeyBoard\Consts.cs" />
-    <Compile Include="KeyBoard\Enums.cs" />
-    <Compile Include="KeyBoard\HookEventArgs.cs" />
-    <Compile Include="KeyBoard\KBDLLHOOKSTRUCT.cs" />
+    <Compile Include="KeyBoard\Structures\Consts.cs" />
+    <Compile Include="KeyBoard\Structures\Enums.cs" />
+    <Compile Include="KeyBoard\Structures\HookEventArgs.cs" />
+    <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="KeyBoard\KeyboardHook.cs" />
-    <Compile Include="KeyBoard\KeyboardHookEventArgs.cs" />
-    <Compile Include="KeyBoard\LowLevelProc.cs" />
+    <Compile Include="KeyBoard\Structures\KeyboardHookEventArgs.cs" />
+    <Compile Include="KeyBoard\Structures\LowLevelProc.cs" />
     <Compile Include="KeyBoard\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -103,6 +103,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

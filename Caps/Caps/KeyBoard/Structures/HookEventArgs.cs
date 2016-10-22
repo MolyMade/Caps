@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Caps.KeyBoard
+namespace Caps.KeyBoard.Structures
 {
     public abstract class HookEventArgs : EventArgs
     {

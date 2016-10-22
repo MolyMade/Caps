@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Caps.KeyBoard
+namespace Caps.KeyBoard.Structures
 {
     /// <summary>
     /// This delegate matches the type of parameter "lpfn" for the NativeMethods method "SetWindowsHookEx".

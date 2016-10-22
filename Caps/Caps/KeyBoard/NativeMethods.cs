@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
 {
@@ -39,21 +40,5 @@ namespace Caps.KeyBoard
             }
             return hookId;
         }
-
-        /// <summary>
-        /// nCode numbers identifying low level Keyboard/Mouse events
-        /// </summary>
-        public static class Hooks
-        {
-            public const uint WH_KEYBOARD_LL = 13;
-            public const uint WH_MOUSE_LL = 14;
-        }
-
-		public static class KeyEvents
-		{
-			public const uint KEYEVENTF_KEYDOWN = 0x0000;
-			public const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
-			public const uint KEYEVENTF_KEYUP = 0x0002;
-		}
     }
 }
