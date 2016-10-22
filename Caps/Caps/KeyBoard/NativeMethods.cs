@@ -21,7 +21,10 @@ namespace Caps.KeyBoard
 
         [DllImport("user32.dll")]
         internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
-    }
+
+		[DllImport("user32.dll")]
+		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+	}
 
     internal static class Win32
     {
@@ -42,8 +45,15 @@ namespace Caps.KeyBoard
         /// </summary>
         public static class Hooks
         {
-            public const int WH_KEYBOARD_LL = 13;
-            public const int WH_MOUSE_LL = 14;
+            public const uint WH_KEYBOARD_LL = 13;
+            public const uint WH_MOUSE_LL = 14;
         }
+
+		public static class KeyEvents
+		{
+			public const uint KEYEVENTF_KEYDOWN = 0x0000;
+			public const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
+			public const uint KEYEVENTF_KEYUP = 0x0002;
+		}
     }
 }
