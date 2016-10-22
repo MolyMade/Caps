@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Caps.KeyBoard;
+using Caps.KeyBoard.Structures;
 
 namespace Caps
 {
@@ -20,9 +22,19 @@ namespace Caps
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private Testing t;
 		public MainWindow()
 		{
+			t = new Testing();
 			InitializeComponent();
+		}
+
+		private void button_Click(object sender, RoutedEventArgs e)
+		{
+		
+			t.start();
+		
+
 		}
 	}
 }

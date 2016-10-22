@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
@@ -12,13 +15,14 @@ namespace Caps.KeyBoard
 		private IntPtr _hookId;
 		private readonly LowLevelProc _callback;
 		private bool _hooked;
+	    private bool _skip;
 
 		private void OnKeyDown(KeyboardHookEventArgs e) => KeyDown?.Invoke(this, e);
         private void OnKeyUp(KeyboardHookEventArgs e)=> KeyUp?.Invoke(this, e);
 
         public KeyboardHook()
         {
-            _callback = KeyboardHookCallback;
+            _callback = new LowLevelProc(this.KeyboardHookCallback);
         }
 
         public void Hook()
@@ -41,12 +45,22 @@ namespace Caps.KeyBoard
             {
                 var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
                 var e = new KeyboardHookEventArgs(lParamStruct,(KeyboardMessages)wParam);
-                switch (e.KeyboardMessages)
+					switch (e.KeyboardMessages)
                 {
                     case KeyboardMessages.WmKeydown:
+		                _skip = true;          
+		                if (e.VirtualKeyCode == VkCodes.VK_CAPITAL && (e.Flag >> 4 & 1) == 0)
+		                {
+			                _skip = false;
+			                return (IntPtr) 1;
+		                }
                         OnKeyDown(e);
                         break;
-                    case KeyboardMessages.WmKeyup:
+                    case KeyboardMessages.WmKeyup:						
+		                if (e.VirtualKeyCode == VkCodes.VK_CAPITAL && !_skip)
+		                {
+			                KeyboardSend.KeyDown(VkCodes.VK_CAPITAL);
+		                }
                         OnKeyUp(e);
                         break;
                     case KeyboardMessages.WmSyskeydown:
