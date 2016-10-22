@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KeyBoard\KeyboardSend.cs" />
     <Compile Include="KeyBoard\Structures\Consts.cs" />
     <Compile Include="KeyBoard\Structures\Enums.cs" />
     <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />

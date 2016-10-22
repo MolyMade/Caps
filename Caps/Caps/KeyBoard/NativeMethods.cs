@@ -24,6 +24,6 @@ namespace Caps.KeyBoard
         internal static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
 		[DllImport("user32.dll")]
-		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+		internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
 	}
 }
