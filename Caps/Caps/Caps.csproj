@@ -65,7 +65,6 @@
     </Compile>
     <Compile Include="KeyBoard\Structures\Consts.cs" />
     <Compile Include="KeyBoard\Structures\Enums.cs" />
-    <Compile Include="KeyBoard\Structures\HookEventArgs.cs" />
     <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="KeyBoard\KeyboardHook.cs" />
     <Compile Include="KeyBoard\Structures\KeyboardHookEventArgs.cs" />

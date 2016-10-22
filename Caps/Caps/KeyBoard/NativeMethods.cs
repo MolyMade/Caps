@@ -26,19 +26,4 @@ namespace Caps.KeyBoard
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 	}
-
-    internal static class Win32
-    {
-        public static IntPtr SetWindowsHook(int hookType, LowLevelProc callback)
-        {
-            IntPtr hookId;
-            using (var currentProcess = Process.GetCurrentProcess())
-            using (var currentModule = currentProcess.MainModule)
-            {
-                var handle = NativeMethods.GetModuleHandle(currentModule.ModuleName);
-                hookId = NativeMethods.SetWindowsHookEx(hookType, callback, handle, 0);
-            }
-            return hookId;
-        }
-    }
 }

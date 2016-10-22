@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Caps.KeyBoard.Structures;
 
@@ -7,88 +8,71 @@ namespace Caps.KeyBoard
     public sealed class KeyboardHook : IDisposable
     {
         public event EventHandler<KeyboardHookEventArgs> KeyDown;
+		public event EventHandler<KeyboardHookEventArgs> KeyUp;
+		private IntPtr _hookId;
+		private readonly LowLevelProc _callback;
+		private bool _hooked;
 
-        private void OnKeyDown(KeyboardHookEventArgs e)
-        {
-	        KeyDown?.Invoke(this, e);
-	        OnKeyEvent(e);
-        }
-
-        public event EventHandler<KeyboardHookEventArgs> KeyUp;
-
-        private void OnKeyUp(KeyboardHookEventArgs e)
-        {
-	        KeyUp?.Invoke(this, e);
-	        OnKeyEvent(e);
-        }
-
-        public event EventHandler<KeyboardHookEventArgs> KeyEvent;
-
-        private void OnKeyEvent(KeyboardHookEventArgs e)
-        {
-	        KeyEvent?.Invoke(this, e);
-        }
-
-
-        /// <summary>
-        /// The hook Id we create. This is stored so we can unhook later.
-        /// </summary>
-        private IntPtr hookId;
-        private readonly LowLevelProc callback;
-        private bool hooked;
+		private void OnKeyDown(KeyboardHookEventArgs e) => KeyDown?.Invoke(this, e);
+        private void OnKeyUp(KeyboardHookEventArgs e)=> KeyUp?.Invoke(this, e);
 
         public KeyboardHook()
         {
-            callback = KeyboardHookCallback;
+            _callback = KeyboardHookCallback;
         }
 
         public void Hook()
         {
-            hookId = Win32.SetWindowsHook(HookType.WH_KEYBOARD_LL, callback);
-            hooked = true;
+			if(_hooked) return;
+            _hookId = SetWindowsHook(HookType.WH_KEYBOARD_LL, _callback);
+            _hooked = true;
         }
 
         public void Unhook()
         {
-            if (!hooked) return;
-            NativeMethods.UnhookWindowsHookEx(hookId);
-            hooked = false;
+            if (!_hooked) return;
+            NativeMethods.UnhookWindowsHookEx(_hookId);
+            _hooked = false;
         }
 
-        /// <summary>
-        /// This is the callback method that is called whenever a low level keyboard event is triggered.
-        /// We use it to call our individual custom events.
-        /// </summary>
         private IntPtr KeyboardHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0)
             {
                 var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
-                var e = new KeyboardHookEventArgs(lParamStruct);
-                switch ((KeyboardMessages)wParam)
+                var e = new KeyboardHookEventArgs(lParamStruct,(KeyboardMessages)wParam);
+                switch (e.KeyboardMessages)
                 {
                     case KeyboardMessages.WmKeydown:
-                        e.KeyboardEventName = KeyboardEventNames.KeyDown;
                         OnKeyDown(e);
                         break;
                     case KeyboardMessages.WmKeyup:
-                        e.KeyboardEventName = KeyboardEventNames.KeyUp;
                         OnKeyUp(e);
                         break;
                     case KeyboardMessages.WmSyskeydown:
-                        e.KeyboardEventName = KeyboardEventNames.SystemKeyDown;
                         OnKeyDown(e);
                         break;
                     case KeyboardMessages.WmSyskeyup:
-                        e.KeyboardEventName = KeyboardEventNames.SystemKeyUp;
                         OnKeyUp(e);
                         break;
                 }
             }
-            return NativeMethods.CallNextHookEx(hookId, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
-        public void Dispose()
+		public static IntPtr SetWindowsHook(int hookType, LowLevelProc callback)
+		{
+			IntPtr hookId;
+			using (var currentProcess = Process.GetCurrentProcess())
+			using (var currentModule = currentProcess.MainModule)
+			{
+				var handle = NativeMethods.GetModuleHandle(currentModule.ModuleName);
+				hookId = NativeMethods.SetWindowsHookEx(hookType, callback, handle, 0);
+			}
+			return hookId;
+		}
+
+		public void Dispose()
         {
             Unhook();
             GC.SuppressFinalize(this);

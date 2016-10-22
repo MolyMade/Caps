@@ -9,11 +9,5 @@ namespace Caps.KeyBoard.Structures
         WmSyskeyup = 0x0105
     }
 
-    public enum KeyboardEventNames
-    {
-        KeyDown,
-        KeyUp,
-        SystemKeyDown,
-        SystemKeyUp
-    }
+
 }
