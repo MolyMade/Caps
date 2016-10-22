@@ -63,6 +63,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KeyBoard\Enums.cs" />
+    <Compile Include="KeyBoard\HookEventArgs.cs" />
+    <Compile Include="KeyBoard\KBDLLHOOKSTRUCT.cs" />
+    <Compile Include="KeyBoard\KeyboardHook.cs" />
+    <Compile Include="KeyBoard\KeyboardHookEventArgs.cs" />
+    <Compile Include="KeyBoard\LowLevelProc.cs" />
+    <Compile Include="KeyBoard\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
