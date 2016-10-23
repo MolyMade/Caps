@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="KeyBoard\Structures\KeyState.cs" />
     <Compile Include="Testing.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,7 +71,7 @@
     <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="KeyBoard\KeyboardHook.cs" />
     <Compile Include="KeyBoard\Structures\KeyboardHookEventArgs.cs" />
-    <Compile Include="KeyBoard\Structures\LowLevelProc.cs" />
+    <Compile Include="KeyBoard\Structures\Delegates.cs" />
     <Compile Include="KeyBoard\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

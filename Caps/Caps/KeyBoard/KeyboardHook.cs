@@ -10,25 +10,23 @@ namespace Caps.KeyBoard
 {
     public sealed class KeyboardHook : IDisposable
     {
-        public event EventHandler<KeyboardHookEventArgs> KeyDown;
-		public event EventHandler<KeyboardHookEventArgs> KeyUp;
+        
+
 		private IntPtr _hookId;
-		private readonly LowLevelProc _callback;
+		private readonly LowLevelProc _lowLevelcallback;
+	    private readonly KeyboardEventCallback _keyboardEventCallback;
 		private bool _hooked;
-	    private bool _skip;
 
-		private void OnKeyDown(KeyboardHookEventArgs e) => KeyDown?.Invoke(this, e);
-        private void OnKeyUp(KeyboardHookEventArgs e)=> KeyUp?.Invoke(this, e);
-
-        public KeyboardHook()
+        public KeyboardHook(KeyboardEventCallback keyboardEventCallback)
         {
-            _callback = new LowLevelProc(this.KeyboardHookCallback);
+	        _keyboardEventCallback = keyboardEventCallback;
+	        _lowLevelcallback = KeyboardHookCallback;
         }
 
         public void Hook()
         {
 			if(_hooked) return;
-            _hookId = SetWindowsHook(HookType.WH_KEYBOARD_LL, _callback);
+            _hookId = SetWindowsHook(HookType.WH_KEYBOARD_LL, _lowLevelcallback);
             _hooked = true;
         }
 
@@ -44,32 +42,11 @@ namespace Caps.KeyBoard
             if (nCode >= 0)
             {
                 var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
-                var e = new KeyboardHookEventArgs(lParamStruct,(KeyboardMessages)wParam);
-					switch (e.KeyboardMessages)
-                {
-                    case KeyboardMessages.WmKeydown:
-		                _skip = true;          
-		                if (e.VirtualKeyCode == VkCodes.VK_CAPITAL && (e.Flag >> 4 & 1) == 0)
-		                {
-			                _skip = false;
-			                return (IntPtr) 1;
-		                }
-                        OnKeyDown(e);
-                        break;
-                    case KeyboardMessages.WmKeyup:						
-		                if (e.VirtualKeyCode == VkCodes.VK_CAPITAL && !_skip)
-		                {
-			                KeyboardSend.KeyDown(VkCodes.VK_CAPITAL);
-		                }
-                        OnKeyUp(e);
-                        break;
-                    case KeyboardMessages.WmSyskeydown:
-                        OnKeyDown(e);
-                        break;
-                    case KeyboardMessages.WmSyskeyup:
-                        OnKeyUp(e);
-                        break;
-                }
+	            if (_keyboardEventCallback(new KeyState()))
+	            {
+					lParamStruct.
+		            return (IntPtr) 1;
+	            }
             }
             return NativeMethods.CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
