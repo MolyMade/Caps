@@ -9,7 +9,7 @@ namespace Caps.KeyBoard
 {
 	public static class KeyboardSend
 	{
-		public static async void KeyDown(byte virtualKeyCode)
+		public static  void KeyDown(byte virtualKeyCode)
 		{
 			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KEYEVENTF_KEYDOWN, 0);
 		}

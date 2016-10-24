@@ -10,17 +10,20 @@ namespace Caps
 {
 	public class Testing
 	{
-		KeyboardHook kh = new KeyboardHook();
-		public void start()
+		KeyboardHook kh = new KeyboardHook((KeyboardEventCallback));
+
+		private static bool KeyboardEventCallback(int vkCode,KeyboardMessages kbm, uint time)
 		{
-			
-			kh.KeyDown += KeyDown;
-			kh.Hook();
+			if (vkCode == VkCodes.VK_CAPITAL)
+			{
+				return false;
+			}
+			return true;
 		}
 
-		private void KeyDown(object sender, KeyBoard.Structures.KeyboardHookEventArgs e)
+		public void start()
 		{
-			
+			kh.Hook();
 		}
 	}
 }

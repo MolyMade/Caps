@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="KeyBoard\Structures\KeyState.cs" />
     <Compile Include="Testing.cs" />
     <Page Include="MainWindow.xaml">
@@ -70,7 +71,6 @@
     <Compile Include="KeyBoard\Structures\Enums.cs" />
     <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="KeyBoard\KeyboardHook.cs" />
-    <Compile Include="KeyBoard\Structures\KeyboardHookEventArgs.cs" />
     <Compile Include="KeyBoard\Structures\Delegates.cs" />
     <Compile Include="KeyBoard\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -106,6 +106,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ClipBoard\" />
     <Folder Include="Core\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

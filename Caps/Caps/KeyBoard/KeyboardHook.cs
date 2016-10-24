@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
 {
     public sealed class KeyboardHook : IDisposable
     {
-        
-
 		private IntPtr _hookId;
 		private readonly LowLevelProc _lowLevelcallback;
 	    private readonly KeyboardEventCallback _keyboardEventCallback;
@@ -42,9 +37,9 @@ namespace Caps.KeyBoard
             if (nCode >= 0)
             {
                 var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
-	            if (_keyboardEventCallback(new KeyState()))
+	            if ((lParamStruct.Flags >> 4 & 1) != 0 ||
+					!_keyboardEventCallback(lParamStruct.VkCode,(KeyboardMessages)wParam, lParamStruct.Time))
 	            {
-					lParamStruct.
 		            return (IntPtr) 1;
 	            }
             }
