@@ -52,7 +52,11 @@ namespace Caps.HotKey
 						this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
 						break;
 					default:
-						OnHotKeyTriggered(_modifierKeyState,vkCode);
+						if (keyboardMessage != KeyboardMessages.WmKeydown && keyboardMessage != KeyboardMessages.WmSyskeydown)
+						{
+							return true;
+						}
+						OnHotKeyTriggered(_modifierKeyState, vkCode);
 						break;
 				}
 				return false;
