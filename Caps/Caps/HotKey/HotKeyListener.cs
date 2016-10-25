@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Caps.HotKey.Structures;
 using Caps.KeyBoard;
@@ -56,7 +57,7 @@ namespace Caps.HotKey
 						{
 							return true;
 						}
-						Task.Run(() => OnHotKeyTriggered(_modifierKeyState, vkCode));
+						OnHotKeyTriggered(_modifierKeyState, vkCode);
 						break;
 				}
 				return false;

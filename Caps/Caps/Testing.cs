@@ -13,7 +13,7 @@ namespace Caps
 	public class Testing
 	{
 		private HotKeyListener hl;
-
+		private ClipBoard.ClipBoard _clipBoard = new ClipBoard.ClipBoard();
 
 
 		public void start()
@@ -25,11 +25,14 @@ namespace Caps
 
 		private void HlOnHotKeyTriggered(object sender, HotKeyEventArgs e)
 		{
-			if (e.Key == VkCodes.VK_X)
+			if (e.Key == VkCodes.VK_C)
 			{
-				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL,VkCodes.VK_A);
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL,VkCodes.VK_C);
-				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL,VkCodes.VK_V);
+				_clipBoard.EnQueue();
+			}
+			else if(e.Key == VkCodes.VK_V)
+			{
+				_clipBoard.DeQueue();
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 			}
 		}
