@@ -19,12 +19,29 @@ namespace Caps.KeyBoard
 			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KEYEVENTF_KEYUP, 0);
 		}
 
-		public static void KeyClick(byte virtualKeyCode)
+		public static void Key(byte virtualKeyCode)
 		{
 			KeyDown(virtualKeyCode);
 			KeyUp(virtualKeyCode);
 		}
 
+		public static void KeyCombination(byte modifier, byte key)
+		{
+			KeyDown(modifier);
+			KeyDown(key);
+			KeyUp(key);
+			KeyUp(modifier);
+		}
+
+		public static void KeyCombination(byte modifier1, byte modifier2, byte key)
+		{
+			KeyDown(modifier1);
+			KeyDown(modifier2);
+			KeyDown(key);
+			KeyUp(key);
+			KeyUp(modifier2);
+			KeyUp(modifier1);
+		}
 		
 	}
 }

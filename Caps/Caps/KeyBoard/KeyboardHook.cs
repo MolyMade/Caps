@@ -37,7 +37,7 @@ namespace Caps.KeyBoard
             if (nCode >= 0)
             {
                 var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
-	            if ((lParamStruct.Flags >> 4 & 1) != 0 ||
+	            if ((lParamStruct.Flags >> 4 & 1) == 0 &&
 					!_keyboardEventCallback(lParamStruct.VkCode,(KeyboardMessages)wParam, lParamStruct.Time))
 	            {
 		            return (IntPtr) 1;

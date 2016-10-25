@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Caps.KeyBoard.Structures
 {
-	public struct KeyState
+	public struct ModifierKeyState
 	{
 		public bool CapsLock;
 		public bool Shift;
 		public bool Ctrl;
 		public bool Alt;
-		public byte Key;
 	}
 }
