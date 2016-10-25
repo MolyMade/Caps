@@ -56,7 +56,7 @@ namespace Caps.HotKey
 						{
 							return true;
 						}
-						OnHotKeyTriggered(_modifierKeyState, vkCode);
+						Task.Run(() => OnHotKeyTriggered(_modifierKeyState, vkCode));
 						break;
 				}
 				return false;
@@ -64,10 +64,10 @@ namespace Caps.HotKey
 			return true;
 		}
 
-		public void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int kvCode)
+		public void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int vkCode)
 		{
 			HotKeyTriggered?.Invoke(this,
-				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, kvCode));
+				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, vkCode));
 		}
 
 		public void Dispose()

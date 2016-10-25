@@ -8,11 +8,18 @@ namespace Caps.HotKey.Structures
 {
 	public class HotKeyEventArgs:EventArgs
 	{
-		public HotKeyGroup HotKey { get; internal set; }
+		public bool Shift;
+		public bool Ctrl;
+		public bool Alt;
+		public int Key;
 
-		public HotKeyEventArgs(bool shift, bool Ctrl, bool Alt, int kvCode)
+		public HotKeyEventArgs(bool shift, bool ctrl, bool alt, int kvCode)
 		{
-			
+			this.Shift = shift;
+			this.Ctrl = ctrl;
+			this.Alt = alt;
+			this.Key = kvCode;
+
 		}
 	}
 }
