@@ -37,21 +37,23 @@ namespace Caps.HotKey
 			else if (this._modifierKeyState.CapsLock)
 			{
 				_isSingleCaptial = false;
-				if (vkCode == VkCodes.VK_LSHIFT || vkCode == VkCodes.VK_RSHIFT)
+				switch (vkCode)
 				{
-					this._modifierKeyState.Shift = keyboardMessage == KeyboardMessages.WmKeydown;
-				}
-				else if (vkCode == VkCodes.VK_LCONTROL || vkCode == VkCodes.VK_RCONTROL)
-				{
-					this._modifierKeyState.Ctrl = keyboardMessage == KeyboardMessages.WmKeydown;
-				}
-				else if (vkCode == VkCodes.VK_LMENU || vkCode == VkCodes.VK_RMENU)
-				{
-					this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
-				}
-				else
-				{
-					OnHotKeyTriggered(_modifierKeyState,vkCode);
+					case VkCodes.VK_LSHIFT:
+					case VkCodes.VK_RSHIFT:
+						this._modifierKeyState.Shift = keyboardMessage == KeyboardMessages.WmKeydown;
+						break;
+					case VkCodes.VK_LCONTROL:
+					case VkCodes.VK_RCONTROL:
+						this._modifierKeyState.Ctrl = keyboardMessage == KeyboardMessages.WmKeydown;
+						break;
+					case VkCodes.VK_LMENU:
+					case VkCodes.VK_RMENU:
+						this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
+						break;
+					default:
+						OnHotKeyTriggered(_modifierKeyState,vkCode);
+						break;
 				}
 				return false;
 			}
