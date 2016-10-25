@@ -10,9 +10,9 @@ namespace Caps.HotKey.Structures
 	{
 		public HotKeyGroup HotKey { get; internal set; }
 
-		public HotKeyEventArgs(HotKeyGroup hotKey)
+		public HotKeyEventArgs(bool shift, bool Ctrl, bool Alt, int kvCode)
 		{
-			this.HotKey = hotKey;
+			
 		}
 	}
 }

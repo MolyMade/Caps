@@ -58,7 +58,7 @@
     <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
-    <Compile Include="HotKey\Structures\KeyState.cs" />
+    <Compile Include="HotKey\Structures\ModifierKeyState.cs" />
     <Compile Include="Testing.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

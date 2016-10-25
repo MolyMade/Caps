@@ -22,31 +22,11 @@ namespace Caps.HotKey
 			this._keyboardHook.Hook();
 		}
 
-		private void ModifierKeyStateUpdate(int vkCode, KeyboardMessages keyboardMessage)
+		private bool KeyboardEventCallback(int vkCode, KeyboardMessages keyboardMessage, uint time)
 		{
 			if (vkCode == VkCodes.VK_CAPITAL)
 			{
 				this._modifierKeyState.CapsLock = keyboardMessage == KeyboardMessages.WmKeydown;
-			}
-			else if (vkCode == VkCodes.VK_LSHIFT || vkCode == VkCodes.VK_RSHIFT)
-			{
-				this._modifierKeyState.Shift = keyboardMessage == KeyboardMessages.WmKeydown;
-			}
-			else if (vkCode == VkCodes.VK_LCONTROL || vkCode == VkCodes.VK_RCONTROL)
-			{
-				this._modifierKeyState.Ctrl = keyboardMessage == KeyboardMessages.WmKeydown;
-			}
-			else if (vkCode == VkCodes.VK_LMENU || vkCode == VkCodes.VK_RMENU)
-			{
-				this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
-			}
-		}
-
-		private  bool KeyboardEventCallback(int vkCode, KeyboardMessages keyboardMessage, uint time)
-		{
-			this.ModifierKeyStateUpdate(vkCode,keyboardMessage);
-			if (vkCode == VkCodes.VK_CAPITAL)
-			{
 				if (keyboardMessage == KeyboardMessages.WmKeyup && _isSingleCaptial)
 				{
 					KeyboardSend.Key(VkCodes.VK_CAPITAL);
@@ -54,17 +34,34 @@ namespace Caps.HotKey
 				_isSingleCaptial = true;
 				return false;
 			}
-			if (this._modifierKeyState.CapsLock)
+			else if (this._modifierKeyState.CapsLock)
 			{
 				_isSingleCaptial = false;
+				if (vkCode == VkCodes.VK_LSHIFT || vkCode == VkCodes.VK_RSHIFT)
+				{
+					this._modifierKeyState.Shift = keyboardMessage == KeyboardMessages.WmKeydown;
+				}
+				else if (vkCode == VkCodes.VK_LCONTROL || vkCode == VkCodes.VK_RCONTROL)
+				{
+					this._modifierKeyState.Ctrl = keyboardMessage == KeyboardMessages.WmKeydown;
+				}
+				else if (vkCode == VkCodes.VK_LMENU || vkCode == VkCodes.VK_RMENU)
+				{
+					this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
+				}
+				else
+				{
+					OnHotKeyTriggered(_modifierKeyState,vkCode);
+				}
 				return false;
 			}
 			return true;
 		}
 
-		public void OnHotKeyTriggered()
+		public void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int kvCode)
 		{
-			HotKeyTriggered?.Invoke(this,new HotKeyEventArgs(HotKeyGroup.a));
+			HotKeyTriggered?.Invoke(this,
+				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, kvCode));
 		}
 
 		public void Dispose()
