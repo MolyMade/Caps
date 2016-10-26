@@ -13,50 +13,37 @@ using System.Windows;
 namespace Caps.ClipBoard
 {
 	public class ClipBoard
-	{	
-		private ConcurrentQueue<IDataObject> _clipBoardQueue = new ConcurrentQueue<IDataObject>();
+	{
+		private readonly ConcurrentStack<IDataObject> _clipBoardQueue = new ConcurrentStack<IDataObject>();
 		private IDataObject _save;
 
 
-		public void EnQueue()
+		public void Push()
 		{
-			_clipBoardQueue.Enqueue(Clipboard.GetDataObject());
+			IDataObject clipData = Clipboard.GetDataObject();
+			DataObject clipCopy = new DataObject();
+			foreach (string format in clipData.GetFormats())
+			{
+				try
+				{
+					clipCopy.SetData(format, clipData.GetData(format));
+				}
+				catch
+				{
+					// ignored
+				}
+			}
+			_clipBoardQueue.Push(clipCopy);
 		}
 
-		public void DeQueue()
+		public void Pop()
 		{
 			IDataObject result;
-			if (_clipBoardQueue.TryDequeue(out result))
+			if (_clipBoardQueue.TryPop(out result))
 			{
-				
-				
-				Clipboard.SetDataObject(result);
+				Clipboard.Clear();
+				Clipboard.SetDataObject(result, true);
 			}
 		}
-
-		public string GetText()
-		{
-			return Clipboard.GetText();
-		}
-
-		public void SetText(string s)
-		{
-			Clipboard.SetText(s);
-		}
-
-		public void BackupClipBoard()
-		{
-			_save = Clipboard.GetDataObject();
-		}
-
-		public void RecoverClipBoard()
-		{
-			if (_save != null)
-			{
-				Clipboard.SetDataObject(_save);
-			}
-		}
-
-	
 	}
 }
