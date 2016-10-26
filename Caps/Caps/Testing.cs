@@ -29,12 +29,21 @@ namespace Caps
 			if (e.Key == VkCodes.VK_C)
 			{
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-				_clipBoard.Push();
+
+				Task.Run(() =>
+				{
+					_clipBoard.Push();
+				});
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				_clipBoard.Pop();
-				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
+				
+				Task.Run(() =>
+				{
+					_clipBoard.Pop();
+					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
+				});
+				
 			}
 		}
 	}
