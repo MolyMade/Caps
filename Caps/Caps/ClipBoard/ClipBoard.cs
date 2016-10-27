@@ -20,27 +20,36 @@ namespace Caps.ClipBoard
 		internal ConcurrentStack<ClipBoardDataObject> DataStack;
 		internal IntPtr Ptr;
 
-		public  ClipBoard(IntPtr intPtr)
+		public ClipBoard(IntPtr intPtr)
 		{
 			Ptr = intPtr;
 			DataStack = new ConcurrentStack<ClipBoardDataObject>();
 		}
 
-		public  ClipBoardDataObject GetData()
+		public ClipBoardDataObject GetData()
 		{
 			ClipBoardDataObject dataObject = new ClipBoardDataObject();
 			WinApi.OpenClipBoard(Ptr);
 			var x = WinApi.GetFormats();
 			foreach (uint format in x)
 			{
-				IntPtr p = WinApi.GetClipBoardData(format);
-				using (Memory m = new Memory(p))
+				if(format==14||format==2) continue;
+				IntPtr p;
+				try
 				{
-					int length = (int)m.Size;
-					IntPtr memPtr = m.Lock();
-					byte[] buffer = new byte[length];
-					Marshal.Copy(memPtr, buffer, 0, length);
-					dataObject.Data[format] = buffer;
+					p = WinApi.GetClipBoardData(format);
+					using (Memory m = new Memory(p))
+					{
+						int length = (int) m.GetSize(format);
+						IntPtr memPtr = m.Lock();
+						byte[] buffer = new byte[length];
+						Marshal.Copy(memPtr, buffer, 0, length);
+						dataObject.Data[format] = buffer;
+					}
+				}
+				catch (Exception)
+				{
+					continue;
 				}
 			}
 			WinApi.CloseClipBoard();

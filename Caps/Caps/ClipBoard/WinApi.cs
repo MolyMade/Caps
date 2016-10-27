@@ -16,7 +16,7 @@ namespace Caps.ClipBoard
 			{
 				try
 				{
-					if (NativeMethods.OpenClipboard(intPtr))
+					if (NativeMethods.OpenClipboard(IntPtr.Zero))
 					{
 						return;
 					}

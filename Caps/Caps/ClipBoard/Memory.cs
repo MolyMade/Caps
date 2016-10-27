@@ -11,7 +11,7 @@ namespace Caps.ClipBoard
 	{
 		internal IntPtr Ptr;
 		private const int ERROR_NOT_LOCKED = 158;
-		public uint Size => NativeMethods.GlobalSize(Ptr).ToUInt32();
+	
 		internal bool Disposed = false;
 		internal bool Alloced = false;
 
@@ -23,6 +23,12 @@ namespace Caps.ClipBoard
 		public Memory()
 		{
 			
+		}
+
+		public uint GetSize(uint u)
+		{
+			var a = u;
+			return NativeMethods.GlobalSize(Ptr).ToUInt32();
 		}
 
 		public IntPtr Lock()
