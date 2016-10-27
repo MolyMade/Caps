@@ -26,17 +26,12 @@ namespace Caps
 		private Testing t;
 		public MainWindow()
 		{
-			t = new Testing();
-			t.Hwnd = new WindowInteropHelper(this).Handle;
+			t = new Testing(new WindowInteropHelper(this).Handle);
 			InitializeComponent();
 		}
 
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
-		
-			t.start();
-		
-
 		}
 	}
 }

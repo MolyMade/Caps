@@ -17,10 +17,19 @@ namespace Caps
 	public class Testing
 	{
 		private HotKeyListener hl;
-		private ClipBoard.ClipBoard _clipBoard = new ClipBoard.ClipBoard();
+		private ClipBoard.ClipBoard _clipBoard;
 		private String X;
 		internal ConcurrentStack<System.Windows.Forms.IDataObject> DataObjectStack = new ConcurrentStack<IDataObject>();
 		public IntPtr Hwnd;
+		private ClipBoard.Structures.ClipBoardDataObject cbo;
+
+		public Testing(IntPtr i)
+		{
+			Hwnd = i;
+			_clipBoard = new ClipBoard.ClipBoard(i);
+			this.start();
+		}
+
 		public void start()
 		{
 			hl = new HotKeyListener();
@@ -31,36 +40,13 @@ namespace Caps
 		{
 			if (e.Key == VkCodes.VK_C)
 			{
-				List<string> l = new List<string>();
-				List<uint> u = new List<uint>();
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-				bool x =ClipBoard.NativeMethods.OpenClipboard(Hwnd);
-				if (x)
-				{
-					uint i = 0;
-					do
-					{
-						i = ClipBoard.NativeMethods.EnumClipboardFormats(i);
-						StringBuilder sb = new StringBuilder();
-						ClipBoard.NativeMethods.GetClipboardFormatName(i, sb, 100);
-						l.Add(sb.ToString());
-						u.Add(i);
-					} while (i!=0);
-					foreach (uint u1 in u)
-					{
-						var ptr = ClipBoard.NativeMethods.GetClipboardData(u1);
-					}
-				}
+				cbo = _clipBoard.GetData();
 
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				IDataObject ida;
-				if (DataObjectStack.TryPop(out ida))
-				{
-					Clipboard.Clear();
-					Clipboard.SetDataObject(ida,false,200,10);
-				}
+				_clipBoard.SetData(cbo);
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 			}
 		}

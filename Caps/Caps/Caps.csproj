@@ -59,8 +59,8 @@
     <Compile Include="ClipBoard\ClipBoard.cs" />
     <Compile Include="ClipBoard\Memory.cs" />
     <Compile Include="ClipBoard\NativeMethods.cs" />
-    <Compile Include="ClipBoard\Structures\ClipDataObject.cs" />
-    <Compile Include="ClipBoard\Structures\Enums.cs" />
+    <Compile Include="ClipBoard\Structures\ClipBoardDataObject.cs" />
+    <Compile Include="ClipBoard\WinApi.cs" />
     <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />

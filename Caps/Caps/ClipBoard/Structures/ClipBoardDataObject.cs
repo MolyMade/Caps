@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Caps.ClipBoard.Structures
 {
-	public enum Command
+	public class ClipBoardDataObject
 	{
-		Push,
-		Pop,
-		GetString,
-		SetString,
-		Exit
+		public Dictionary<uint,byte[]> Data = new Dictionary<uint, byte[]>();
+	
 	}
 }
