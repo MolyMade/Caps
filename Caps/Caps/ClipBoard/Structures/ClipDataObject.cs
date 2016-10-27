@@ -10,9 +10,8 @@ namespace Caps.ClipBoard.Structures
 	public class ClipDataObject
 	{
 		public string[] Formats;
-		public string[] SupportedFormats => this.Object.GetFormats();
 		public IDictionary<string, object> DataDict { get; }
-		public DataObject Object => GetDataObject(this.DataDict);
+		public DataObject Object => this.GetDataObject(DataDict);
 
 		public ClipDataObject(IDataObject dataObject)
 		{
@@ -20,7 +19,14 @@ namespace Caps.ClipBoard.Structures
 			this.DataDict = new Dictionary<string, object>();
 			foreach (string format in Formats)
 			{
-				DataDict.Add(format,dataObject.GetData(format));
+				try
+				{
+					DataDict.Add(format, dataObject.GetData(format));
+				}
+				catch (Exception)
+				{
+					// ignored
+				}
 			}
 		}
 
@@ -32,11 +38,6 @@ namespace Caps.ClipBoard.Structures
 				o.SetData(kv.Key,false,kv.Value);
 			}
 			return o;
-		}
-
-		public override string ToString()
-		{
-			return $"{SupportedFormats.Length}/{Formats.Length} Formats";
 		}
 	}
 }

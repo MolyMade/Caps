@@ -57,6 +57,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClipBoard\ClipBoard.cs" />
+    <Compile Include="ClipBoard\Memory.cs" />
+    <Compile Include="ClipBoard\NativeMethods.cs" />
     <Compile Include="ClipBoard\Structures\ClipDataObject.cs" />
     <Compile Include="ClipBoard\Structures\Enums.cs" />
     <Compile Include="HotKey\HotKeyListener.cs" />
