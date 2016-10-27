@@ -8,68 +8,92 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
+using Caps.ClipBoard.Structures;
 
 
 namespace Caps.ClipBoard
 {
-	public class ClipBoard
+	public class ClipBoard:IDisposable
 	{
-		private readonly Stack<IDataObject> _clipBoardQueue = new Stack<IDataObject>();
-		private IDataObject _save;
+		internal BlockingCollection<Command> CommandeQueue = new BlockingCollection<Command>(1);
+		internal BlockingCollection<string> StringBuffer = new BlockingCollection<string>(1);
+		internal ConcurrentStack<ClipDataObject> DataObjectStack = new ConcurrentStack<ClipDataObject>();
+		internal Thread ClipBoardWorker;
+		internal bool Running;
 
+		public string String
+		{
+			get { return this.GetString(); }
+			set { this.SetString(value);}
+		}
+
+		public ClipBoard()
+		{
+			Running = true;
+			ClipBoardWorker = new Thread(ThreadAction);
+			ClipBoardWorker.SetApartmentState(ApartmentState.STA);
+			ClipBoardWorker.IsBackground = true;
+			ClipBoardWorker.Start();
+		}
+
+		internal void ThreadAction()
+		{
+			while (Running)
+			{
+				var c = CommandeQueue.Take();
+				switch (c)
+				{
+					case Command.Push:
+						DataObjectStack.Push(new ClipDataObject(Clipboard.GetDataObject()));
+						break;
+					case Command.Pop:
+						ClipDataObject cdo;
+						if (DataObjectStack.TryPop(out cdo))
+						{
+							Clipboard.SetDataObject(cdo.Object,true,10,20);
+						}
+						break;
+					case Command.GetString:
+						StringBuffer.Add(Clipboard.GetText());
+						break;
+					case Command.SetString:
+						Clipboard.SetText(StringBuffer.Take());
+						break;
+					case Command.Exit:
+						this.Running = false;
+						return;
+					default:
+						throw new NotImplementedException($"{c.ToString()} not implemented.");
+				}
+			}
+		}
 
 		public void Push()
 		{
-			IDataObject clipData;
-			for (int i = 0; i < 10; i++)
-			{
-				try
-				{
-					clipData = Clipboard.GetDataObject();
-					DataObject clipCopy = new DataObject();
-					foreach (string format in clipData.GetFormats())
-					{
-						try
-						{
-							clipCopy.SetData(format, clipData.GetData(format));
-						}
-						catch
-						{
-							// ignored
-						}
-					}
-					_clipBoardQueue.Push(clipCopy);
-				}
-				catch
-				{
-					// ignored
-				}
-			}
-
-
+			CommandeQueue.Add(Command.Push);
 		}
 
 		public void Pop()
 		{
+			CommandeQueue.Add(Command.Pop);
+		}
 
-			if (_clipBoardQueue.Count > 0)
-			{
-				var x = _clipBoardQueue.Pop();
-				for (int i = 0; i < 10; i++)
-				{
-					try
-					{
-						Clipboard.Clear();
-						Clipboard.SetDataObject(x, false);
-					}
-					catch (Exception)
-					{
-						// ignored
-					}
-				}
+		public string GetString()
+		{
+			CommandeQueue.Add(Command.GetString);
+			return StringBuffer.Take();
+		}
 
-			}
+		public void SetString(string s)
+		{
+			StringBuffer.Add(s);
+			CommandeQueue.Add(Command.SetString);
+		}
+
+		public void Dispose()
+		{
+			this.Running = false;
 		}
 	}
 }

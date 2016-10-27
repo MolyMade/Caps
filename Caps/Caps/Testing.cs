@@ -15,7 +15,7 @@ namespace Caps
 	{
 		private HotKeyListener hl;
 		private ClipBoard.ClipBoard _clipBoard = new ClipBoard.ClipBoard();
-
+		private String X;
 
 		public void start()
 		{
@@ -29,21 +29,13 @@ namespace Caps
 			if (e.Key == VkCodes.VK_C)
 			{
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
+				String X = _clipBoard.GetString();
 
-				Task.Run(() =>
-				{
-					_clipBoard.Push();
-				});
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				
-				Task.Run(() =>
-				{
-					_clipBoard.Pop();
-					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
-				});
-				
+				_clipBoard.SetString("SSS");
+				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 			}
 		}
 	}
