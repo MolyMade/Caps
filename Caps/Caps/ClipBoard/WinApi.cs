@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Caps.ClipBoard.Structures;
 
@@ -11,12 +12,21 @@ namespace Caps.ClipBoard
 	{
 		public static void OpenClipBoard(IntPtr intPtr)
 		{
-			if (NativeMethods.OpenClipboard(intPtr))
+			for (int i = 0; i < 20; i++)
 			{
-				return;
+				try
+				{
+					if (NativeMethods.OpenClipboard(intPtr))
+					{
+						return;
+					}
+				}
+				catch (Exception)
+				{	
+					Thread.Sleep(1);
+				}
 			}
 			throw new Exception("Fail to Open ClipBoard");
-
 		}
 
 		public static uint[] GetFormats()

@@ -34,12 +34,14 @@ namespace Caps.ClipBoard
 			foreach (uint format in x)
 			{
 				IntPtr p = WinApi.GetClipBoardData(format);
-				Memory m = new Memory(p);
-				int length = (int) m.Size;
-				IntPtr memPtr = m.Lock();
-				byte[] buffer = new byte[length];
-				Marshal.Copy(memPtr,buffer,0,length);
-				dataObject.Data[format] = buffer;
+				using (Memory m = new Memory(p))
+				{
+					int length = (int)m.Size;
+					IntPtr memPtr = m.Lock();
+					byte[] buffer = new byte[length];
+					Marshal.Copy(memPtr, buffer, 0, length);
+					dataObject.Data[format] = buffer;
+				}
 			}
 			WinApi.CloseClipBoard();
 			return dataObject;
@@ -48,15 +50,18 @@ namespace Caps.ClipBoard
 		public  void SetData(ClipBoardDataObject dataObject)
 		{
 			WinApi.OpenClipBoard(Ptr);
+			WinApi.EmptyClipBoard();
 			foreach (var kv in dataObject.Data)
 			{
 				int size = kv.Value.Length;
-				Memory m = new Memory();
-				IntPtr handle = m.Alloc(size + 1);
-				IntPtr i = m.Lock();
-				Marshal.Copy(kv.Value,0,i,size);
-				m.UnLock();
-				NativeMethods.SetClipboardData(kv.Key, handle);
+				using (Memory m = new Memory())
+				{
+					IntPtr handle = m.Alloc(size + 1);
+					IntPtr i = m.Lock();
+					Marshal.Copy(kv.Value, 0, i, size);
+					m.UnLock();
+					NativeMethods.SetClipboardData(kv.Key, handle);
+				}
 			}
 			WinApi.CloseClipBoard();
 		}

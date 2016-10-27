@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -41,12 +42,13 @@ namespace Caps
 			if (e.Key == VkCodes.VK_C)
 			{
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-				cbo = _clipBoard.GetData();
+				Thread.Sleep(100);
+				_clipBoard.Push();
 
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				_clipBoard.SetData(cbo);
+				_clipBoard.Pop();
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 			}
 		}
