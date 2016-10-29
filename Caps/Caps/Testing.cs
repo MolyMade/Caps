@@ -5,29 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Interop;
+using Caps.ClipBoard;
 using Caps.HotKey;
 using Caps.HotKey.Structures;
 using Caps.KeyBoard;
 using Caps.KeyBoard.Structures;
-using IDataObject = System.Windows.Forms.IDataObject;
 
 namespace Caps
 {
 	public class Testing
 	{
 		private HotKeyListener hl;
-		private ClipBoard.ClipBoard _clipBoard;
 		private String X;
-		internal ConcurrentStack<System.Windows.Forms.IDataObject> DataObjectStack = new ConcurrentStack<IDataObject>();
 		public IntPtr Hwnd;
-		private ClipBoard.Structures.ClipBoardDataObject cbo;
+		private ClipBoard.Clipboard c;
+		public IDataObject id;
 
 		public Testing(IntPtr i)
 		{
-			Hwnd = i;
-			_clipBoard = new ClipBoard.ClipBoard(i);
+			c = new ClipBoard.Clipboard();
 			this.start();
 		}
 
@@ -42,13 +40,13 @@ namespace Caps
 			if (e.Key == VkCodes.VK_C)
 			{
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-				Thread.Sleep(100);
-				_clipBoard.Push();
+				Thread.Sleep(50);
+				c.Push();
 
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				_clipBoard.Pop();
+				c.Pop();
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 			}
 		}

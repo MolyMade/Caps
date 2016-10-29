@@ -1,108 +1,91 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Caps.ClipBoard.Structures;
-
+using System.Windows;
 
 namespace Caps.ClipBoard
 {
-	public class ClipBoard
+	public class Clipboard
 	{
-		internal ConcurrentStack<ClipBoardDataObject> DataStack;
-		internal IntPtr Ptr;
+		internal ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
+		public int Count => ObjectStack.Count;
 
-		public ClipBoard(IntPtr intPtr)
+		internal IDataObject Get()
 		{
-			Ptr = intPtr;
-			DataStack = new ConcurrentStack<ClipBoardDataObject>();
+			var o = HandleOleApi.GetDataObject();
+			return o;
 		}
 
-		public ClipBoardDataObject GetData()
+		internal void Set(IDataObject obj)
 		{
-			ClipBoardDataObject dataObject = new ClipBoardDataObject();
-			WinApi.OpenClipBoard(Ptr);
-			var x = WinApi.GetFormats();
-			foreach (uint format in x)
+			HandleOleApi.SetDataObject(obj);
+		}
+
+		internal IDataObject Retrieve()
+		{
+			var clipdata = this.Get();
+			DataObject data = new DataObject();
+			var formats = clipdata.GetFormats();
+			foreach (string format in formats)
 			{
-				if(format==14||format==2) continue;
-				IntPtr p;
+				object d;
 				try
 				{
-					p = WinApi.GetClipBoardData(format);
-					using (Memory m = new Memory(p))
-					{
-						int length = (int) m.GetSize(format);
-						IntPtr memPtr = m.Lock();
-						byte[] buffer = new byte[length];
-						Marshal.Copy(memPtr, buffer, 0, length);
-						dataObject.Data[format] = buffer;
-					}
+					d = clipdata.GetData(format,false);
 				}
-				catch (Exception)
+				catch (OutOfMemoryException)
 				{
-					continue;
+					d = null;
 				}
-			}
-			WinApi.CloseClipBoard();
-			return dataObject;
-		}
-
-		public  void SetData(ClipBoardDataObject dataObject)
-		{
-			WinApi.OpenClipBoard(Ptr);
-			WinApi.EmptyClipBoard();
-			foreach (var kv in dataObject.Data)
-			{
-				int size = kv.Value.Length;
-				using (Memory m = new Memory())
+				catch (ExternalException)
 				{
-					IntPtr handle = m.Alloc(size + 1);
-					IntPtr i = m.Lock();
-					Marshal.Copy(kv.Value, 0, i, size);
-					m.UnLock();
-					NativeMethods.SetClipboardData(kv.Key, handle);
+					d = null;
+				}
+				if (d != null)
+				{
+					data.SetData(format, d);
 				}
 			}
-			WinApi.CloseClipBoard();
+			return data;
 		}
 
-		public  string GetString()
+		public bool Push()
 		{
-			return "";
-		}
-
-		public  void SetString(string s)
-		{
-			
-		}
-
-		public  void Clear()
-		{
-			
-		}
-
-		public  void Push()
-		{
-			var x = this.GetData();
-			DataStack.Push(x);
-		}
-
-		public  void Pop()
-		{
-			ClipBoardDataObject cbo;
-			if (DataStack.TryPop(out cbo))
+			try
 			{
-				this.SetData(cbo);
+				ObjectStack.Push(this.Retrieve());
+				return true;
+			}
+			catch
+			{
+				return false;
 			}
 		}
+
+		public bool Pop()
+		{
+			IDataObject id;
+			if (ObjectStack.TryPop(out id))
+			{
+				this.Set(id);
+				return true;
+			}
+			return false;
+		}
+
+		public void ClearStack()
+		{
+			this.ObjectStack.Clear();
+		}
+
+		public void Clear()
+		{
+			HandleOleApi.Clear();
+		}
+
 	}
 }
