@@ -4,87 +4,115 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Caps.ClipBoard.Structures;
 
 namespace Caps.ClipBoard
 {
 	public class Clipboard
 	{
 		internal ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
-		public int Count => ObjectStack.Count;
+		internal BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
+		internal BlockingCollection<bool> Returns = new BlockingCollection<bool>();
+		internal string GetString = "";
+		internal string SetString = "";
+		internal Thread ClipboardDaemon;
 
-		internal IDataObject Get()
+		public Clipboard()
 		{
-			var o = HandleOleApi.GetDataObject();
-			return o;
+			ClipboardDaemon = new Thread(EventLoop);
+			ClipboardDaemon.SetApartmentState(ApartmentState.STA);
+			ClipboardDaemon.IsBackground = true;
+			ClipboardDaemon.Start();
 		}
 
-		internal void Set(IDataObject obj)
+		internal void EventLoop()
 		{
-			HandleOleApi.SetDataObject(obj);
-		}
-
-		internal IDataObject Retrieve()
-		{
-			var clipdata = this.Get();
-			DataObject data = new DataObject();
-			var formats = clipdata.GetFormats();
-			foreach (string format in formats)
+			while (true)
 			{
-				object d;
-				try
+				Command c = Commands.Take();
+				switch (c)
 				{
-					d = clipdata.GetData(format,false);
-				}
-				catch (OutOfMemoryException)
-				{
-					d = null;
-				}
-				catch (ExternalException)
-				{
-					d = null;
-				}
-				if (d != null)
-				{
-					data.SetData(format, d);
+					case Command.Push:
+						IDataObject obj = HandleOleApi.GetDataObject();
+						var formats = obj.GetFormats();
+						IDataObject newObj = new DataObject();
+						foreach (string format in formats)
+						{
+							object d;
+							try
+							{
+								d = obj.GetData(format);
+							}
+							catch (OutOfMemoryException)
+							{
+								d = null;
+							}
+							catch (ExternalException)
+							{
+								d = null;
+							}
+							if (d != null)
+							{
+								newObj.SetData(format,d );
+							}
+						}
+						ObjectStack.Push(newObj);
+						Returns.Add(true);
+						break;
+					case Command.Pop:
+						IDataObject iobj;
+						if (ObjectStack.TryPop(out iobj))
+						{
+							HandleOleApi.SetDataObject(iobj);
+						}
+						Returns.Add(true);
+						break;
+					case Command.GetText:
+						GetString = HandleOleApi.GetText();
+						Returns.Add(true);
+						break;
+					case Command.SetText:
+						HandleOleApi.SetText(SetString);
+						Returns.Add(true);
+						break;
+					case Command.Exit:
+						return;
+					default:
+						throw new Exception("No such command");
 				}
 			}
-			return data;
 		}
 
 		public bool Push()
 		{
-			try
-			{
-				ObjectStack.Push(this.Retrieve());
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
+			Commands.Add(Command.Push);
+			return Returns.Take();
 		}
 
 		public bool Pop()
 		{
-			IDataObject id;
-			if (ObjectStack.TryPop(out id))
+			Commands.Add(Command.Pop);
+			return Returns.Take();
+		}
+
+		public string GetText()
+		{
+			Commands.Add(Command.GetText);
+			if (Returns.Take())
 			{
-				this.Set(id);
-				return true;
+				return GetString;
 			}
-			return false;
+			return "";
 		}
 
-		public void ClearStack()
+		public bool SetText(string s)
 		{
-			this.ObjectStack.Clear();
-		}
-
-		public void Clear()
-		{
-			HandleOleApi.Clear();
+			SetString = s;
+			Commands.Add(Command.SetText);
+			return Returns.Take();
 		}
 
 	}

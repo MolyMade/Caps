@@ -23,7 +23,7 @@ namespace Caps.ClipBoard
 					Thread.Sleep(10);
 				}
 			}
-			throw new Exception("Cant get data");
+			return null;
 		}
 
 		public static object GetData(string format)
@@ -39,7 +39,8 @@ namespace Caps.ClipBoard
 					Thread.Sleep(10);
 				}
 			}
-			throw new Exception("Cant get data");
+			return null; 
+
 		}
 
 		public static void SetDataObject(IDataObject obj)
@@ -88,7 +89,37 @@ namespace Caps.ClipBoard
 					Thread.Sleep(10);
 				}
 			}
-			throw new Exception("Cant clear");
+		}
+
+		public static string GetText()
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				try
+				{
+					return System.Windows.Clipboard.GetText();
+				}
+				catch (Exception)
+				{
+					Thread.Sleep(10);
+				}
+			}
+			return "";
+		}
+
+		public static void SetText(string s)
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				try
+				{
+					System.Windows.Clipboard.SetText(s);
+				}
+				catch (Exception)
+				{
+					Thread.Sleep(10);
+				}
+			}
 		}
 	}
 }

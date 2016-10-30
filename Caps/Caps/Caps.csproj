@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="ClipBoard\Clipboard.cs" />
     <Compile Include="ClipBoard\HandleOleApi.cs" />
+    <Compile Include="ClipBoard\Structures\Command.cs" />
     <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
@@ -110,7 +111,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClipBoard\Structures\" />
     <Folder Include="Core\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

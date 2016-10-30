@@ -41,7 +41,7 @@ namespace Caps
 			{
 				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
 				Thread.Sleep(50);
-				c.Push();
+				var a =c.Push();
 
 			}
 			else if (e.Key == VkCodes.VK_V)
