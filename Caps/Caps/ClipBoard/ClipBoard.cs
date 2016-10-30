@@ -12,7 +12,7 @@ using Caps.ClipBoard.Structures;
 
 namespace Caps.ClipBoard
 {
-	public class Clipboard
+	public class Clipboard:IDisposable
 	{
 		internal ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
 		internal BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
@@ -48,7 +48,7 @@ namespace Caps.ClipBoard
 							object d;
 							try
 							{
-								d = obj.GetData(format);
+								d = obj.GetData(format,false);
 							}
 							catch (OutOfMemoryException)
 							{
@@ -92,6 +92,7 @@ namespace Caps.ClipBoard
 
 		public bool Push()
 		{
+			Thread.Sleep(50);
 			Commands.Add(Command.Push);
 			return Returns.Take();
 		}
@@ -104,6 +105,7 @@ namespace Caps.ClipBoard
 
 		public string GetText()
 		{
+			Thread.Sleep(50);
 			Commands.Add(Command.GetText);
 			if (Returns.Take())
 			{
@@ -119,5 +121,10 @@ namespace Caps.ClipBoard
 			return Returns.Take();
 		}
 
+		public void Dispose()
+		{
+			Commands.Add(Command.Exit);
+			ObjectStack.Clear();
+		}
 	}
 }

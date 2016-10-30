@@ -39,7 +39,7 @@ namespace Caps.ClipBoard
 					Thread.Sleep(10);
 				}
 			}
-			return null; 
+			return null;
 
 		}
 
@@ -114,6 +114,24 @@ namespace Caps.ClipBoard
 				try
 				{
 					System.Windows.Clipboard.SetText(s);
+					return;
+				}
+				catch (Exception)
+				{
+					Thread.Sleep(10);
+				}
+			}
+		}
+
+		public static void Flush()
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				try
+				{
+					System.Windows.Clipboard.Flush();
+					return;
+
 				}
 				catch (Exception)
 				{

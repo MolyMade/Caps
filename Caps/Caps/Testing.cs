@@ -39,15 +39,22 @@ namespace Caps
 		{
 			if (e.Key == VkCodes.VK_C)
 			{
-				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-				Thread.Sleep(50);
-				var a =c.Push();
+				
+				Task.Run(() =>
+				{
+					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
+					c.Push();
+				});
 
 			}
 			else if (e.Key == VkCodes.VK_V)
 			{
-				c.Pop();
-				KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
+				Task.Run(() =>
+				{
+					c.Pop();
+					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
+				});
+
 			}
 		}
 	}
