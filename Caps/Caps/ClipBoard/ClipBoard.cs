@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,10 +27,13 @@ namespace Caps.ClipBoard
 			ClipboardDaemon.SetApartmentState(ApartmentState.STA);
 			ClipboardDaemon.IsBackground = true;
 			ClipboardDaemon.Start();
+
 		}
 
 		internal void EventLoop()
 		{
+			UIPermission clipboard = new UIPermission(PermissionState.None);
+			clipboard.Clipboard = UIPermissionClipboard.AllClipboard;
 			while (true)
 			{
 				Command c = Commands.Take();
