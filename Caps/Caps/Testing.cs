@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
-using Caps.ClipBoard;
 using Caps.HotKey;
 using Caps.HotKey.Structures;
 using Caps.KeyBoard;
@@ -20,12 +19,10 @@ namespace Caps
 		private HotKeyListener hl;
 		private String X;
 		public IntPtr Hwnd;
-		private ClipBoard.Clipboard c;
 		public IDataObject id;
 
 		public Testing(IntPtr i)
 		{
-			c = new ClipBoard.Clipboard();
 			this.start();
 		}
 
@@ -43,7 +40,7 @@ namespace Caps
 				Task.Run(() =>
 				{
 					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-					c.Push();
+					ClipBoard.Clipboard.Push();
 				});
 
 			}
@@ -51,7 +48,7 @@ namespace Caps
 			{
 				Task.Run(() =>
 				{
-					c.Pop();
+					ClipBoard.Clipboard.Pop();
 					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
 				});
 

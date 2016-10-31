@@ -12,16 +12,16 @@ using Caps.ClipBoard.Structures;
 
 namespace Caps.ClipBoard
 {
-	public class Clipboard:IDisposable
+	public static class Clipboard
 	{
-		internal ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
-		internal BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
-		internal BlockingCollection<bool> Returns = new BlockingCollection<bool>();
-		internal string GetString = "";
-		internal string SetString = "";
-		internal Thread ClipboardDaemon;
+		internal static ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
+		internal static BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
+		internal static BlockingCollection<bool> Returns = new BlockingCollection<bool>();
+		private static string GetString = "";
+		private static string SetString = "";
+		internal static Thread ClipboardDaemon;
 
-		public Clipboard()
+		static Clipboard()
 		{
 			ClipboardDaemon = new Thread(EventLoop);
 			ClipboardDaemon.SetApartmentState(ApartmentState.STA);
@@ -30,7 +30,7 @@ namespace Caps.ClipBoard
 
 		}
 
-		internal void EventLoop()
+		internal static void EventLoop()
 		{
 			UIPermission clipboard = new UIPermission(PermissionState.None);
 			clipboard.Clipboard = UIPermissionClipboard.AllClipboard;
@@ -50,11 +50,7 @@ namespace Caps.ClipBoard
 							{
 								d = obj.GetData(format,false);
 							}
-							catch (OutOfMemoryException)
-							{
-								d = null;
-							}
-							catch (ExternalException)
+							catch
 							{
 								d = null;
 							}
@@ -90,22 +86,20 @@ namespace Caps.ClipBoard
 			}
 		}
 
-		public bool Push()
+		public static bool Push()
 		{
-			Thread.Sleep(50);
 			Commands.Add(Command.Push);
 			return Returns.Take();
 		}
 
-		public bool Pop()
+		public static bool Pop()
 		{
 			Commands.Add(Command.Pop);
 			return Returns.Take();
 		}
 
-		public string GetText()
+		public static string GetText()
 		{
-			Thread.Sleep(50);
 			Commands.Add(Command.GetText);
 			if (Returns.Take())
 			{
@@ -114,17 +108,11 @@ namespace Caps.ClipBoard
 			return "";
 		}
 
-		public bool SetText(string s)
+		public static bool SetText(string s)
 		{
 			SetString = s;
 			Commands.Add(Command.SetText);
 			return Returns.Take();
-		}
-
-		public void Dispose()
-		{
-			Commands.Add(Command.Exit);
-			ObjectStack.Clear();
 		}
 	}
 }

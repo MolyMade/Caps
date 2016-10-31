@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Caps.KeyBoard;
 using Caps.KeyBoard.Structures;
 
+
 namespace Caps
 {
 	/// <summary>
@@ -23,15 +24,20 @@ namespace Caps
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private Testing t;
+		private Testing t = new Testing(IntPtr.Zero);
 		public MainWindow()
 		{
-			t = new Testing(new WindowInteropHelper(this).Handle);
 			InitializeComponent();
 		}
 
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
+			textBox.Text = ClipBoard.Clipboard.GetText();
+		}
+
+		private void button1_Click(object sender, RoutedEventArgs e)
+		{
+			ClipBoard.Clipboard.SetText(textBox1.Text);
 		}
 	}
 }
