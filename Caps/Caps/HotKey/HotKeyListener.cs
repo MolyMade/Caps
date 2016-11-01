@@ -52,6 +52,10 @@ namespace Caps.HotKey
 					case VkCodes.VK_RMENU:
 						this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
 						break;
+					case VkCodes.VK_LWIN:
+					case VkCodes.VK_RWIN:
+						this._modifierKeyState.Win = keyboardMessage == KeyboardMessages.WmKeydown;
+						break;
 					default:
 						if (keyboardMessage != KeyboardMessages.WmKeydown && keyboardMessage != KeyboardMessages.WmSyskeydown)
 						{
@@ -68,7 +72,8 @@ namespace Caps.HotKey
 		public void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int vkCode)
 		{
 			HotKeyTriggered?.Invoke(this,
-				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, vkCode));
+				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
+					vkCode));
 		}
 
 		public void Dispose()

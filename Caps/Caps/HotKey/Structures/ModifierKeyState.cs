@@ -6,5 +6,6 @@
 		public bool Shift;
 		public bool Ctrl;
 		public bool Alt;
+		public bool Win;
 	}
 }

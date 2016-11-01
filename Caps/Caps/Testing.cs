@@ -16,43 +16,18 @@ namespace Caps
 {
 	public class Testing
 	{
-		private HotKeyListener hl;
-		private String X;
-		public IntPtr Hwnd;
-		public IDataObject id;
+		
 
 		public Testing(IntPtr i)
 		{
-			this.start();
+			
 		}
 
 		public void start()
 		{
-			hl = new HotKeyListener();
-			hl.HotKeyTriggered += HlOnHotKeyTriggered;
+		
 		}
 
-		private void HlOnHotKeyTriggered(object sender, HotKeyEventArgs e)
-		{
-			if (e.Key == VkCodes.VK_C)
-			{
-				
-				Task.Run(() =>
-				{
-					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_C);
-					ClipBoard.Clipboard.Push();
-				});
-
-			}
-			else if (e.Key == VkCodes.VK_V)
-			{
-				Task.Run(() =>
-				{
-					ClipBoard.Clipboard.Pop();
-					KeyboardSend.KeyCombination(VkCodes.VK_LCONTROL, VkCodes.VK_V);
-				});
-
-			}
-		}
+	
 	}
 }

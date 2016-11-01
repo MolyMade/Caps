@@ -1,5 +1,13 @@
 ﻿namespace Caps.KeyBoard.Structures
 {
+	public static class Modifiers
+	{
+		public const int Ctrl = 0x0800;
+		public const int Shift = 0x0400;
+		public const int Alt = 0x0200;
+		public const int Win = 0x0100;
+	}
+
 	public static class HookType
 	{
 		public const int WH_KEYBOARD_LL = 13;
@@ -13,7 +21,7 @@
 		public const uint  KEYEVENTF_KEYUP = 0x0002;
 	}
 
-	internal class VkCodes
+	internal static class VkCodes
 	{
 		public const byte VK_LBUTTON = 0x01; //Left mouse button
 		public const byte VK_RBUTTON = 0x02; //Right mouse button
