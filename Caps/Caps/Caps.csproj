@@ -58,6 +58,7 @@
     <Compile Include="ClipBoard\Clipboard.cs" />
     <Compile Include="ClipBoard\HandleOleApi.cs" />
     <Compile Include="ClipBoard\Structures\Command.cs" />
+    <Compile Include="Core\Core.cs" />
     <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
@@ -71,11 +72,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="KeyBoard\KeyboardSend.cs" />
+    <Compile Include="KeyBoard\Send.cs" />
     <Compile Include="KeyBoard\Structures\Consts.cs" />
     <Compile Include="KeyBoard\Structures\Enums.cs" />
     <Compile Include="KeyBoard\Structures\KBDLLHOOKSTRUCT.cs" />
-    <Compile Include="KeyBoard\KeyboardHook.cs" />
+    <Compile Include="KeyBoard\KeyHook.cs" />
     <Compile Include="KeyBoard\Structures\Delegates.cs" />
     <Compile Include="KeyBoard\NativeMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -110,9 +111,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

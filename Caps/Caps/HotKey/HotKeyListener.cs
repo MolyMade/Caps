@@ -12,14 +12,14 @@ namespace Caps.HotKey
 {
 	public class HotKeyListener:IDisposable
 	{
-		private readonly KeyboardHook _keyboardHook;
+		private readonly KeyHook _keyboardHook;
 		public event EventHandler<HotKeyEventArgs> HotKeyTriggered;
 		private ModifierKeyState _modifierKeyState;
 		private bool _isSingleCaptial;
 
 		public HotKeyListener()
 		{
-			this._keyboardHook = new KeyboardHook(KeyboardEventCallback);
+			this._keyboardHook = new KeyHook(KeyboardEventCallback);
 			this._keyboardHook.Hook();
 		}
 
@@ -30,7 +30,7 @@ namespace Caps.HotKey
 				this._modifierKeyState.CapsLock = keyboardMessage == KeyboardMessages.WmKeydown;
 				if (keyboardMessage == KeyboardMessages.WmKeyup && _isSingleCaptial)
 				{
-					KeyboardSend.Key(VkCodes.VK_CAPITAL);
+					Send.Key(VkCodes.VK_CAPITAL);
 				}
 				_isSingleCaptial = true;
 				return false;
@@ -69,11 +69,14 @@ namespace Caps.HotKey
 			return true;
 		}
 
-		public void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int vkCode)
+		protected void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int vkCode)
 		{
-			HotKeyTriggered?.Invoke(this,
+			//HotKeyTriggered?.Invoke(this,
+			//	new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
+			//		vkCode));
+			IAsyncResult ir = HotKeyTriggered?.BeginInvoke(this,
 				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
-					vkCode));
+					vkCode), null, null);
 		}
 
 		public void Dispose()

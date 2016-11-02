@@ -5,14 +5,14 @@ using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
 {
-    public sealed class KeyboardHook : IDisposable
+    public sealed class KeyHook : IDisposable
     {
 		private IntPtr _hookId;
 		private readonly LowLevelProc _lowLevelcallback;
 	    private readonly KeyboardEventCallback _keyboardEventCallback;
 		private bool _hooked;
 
-        public KeyboardHook(KeyboardEventCallback keyboardEventCallback)
+        public KeyHook(KeyboardEventCallback keyboardEventCallback)
         {
 	        _keyboardEventCallback = keyboardEventCallback;
 	        _lowLevelcallback = KeyboardHookCallback;
@@ -64,7 +64,7 @@ namespace Caps.KeyBoard
             GC.SuppressFinalize(this);
         }
 
-        ~KeyboardHook()
+        ~KeyHook()
         {
             Unhook();
         }

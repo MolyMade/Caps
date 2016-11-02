@@ -7,7 +7,7 @@ using Caps.KeyBoard.Structures;
 
 namespace Caps.KeyBoard
 {
-	public static class KeyboardSend
+	public static class Send
 	{
 		public static  void KeyDown(byte virtualKeyCode)
 		{

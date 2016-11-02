@@ -32,8 +32,6 @@ namespace Caps.ClipBoard
 
 		internal static void EventLoop()
 		{
-			UIPermission clipboard = new UIPermission(PermissionState.None);
-			clipboard.Clipboard = UIPermissionClipboard.AllClipboard;
 			while (true)
 			{
 				Command c = Commands.Take();
