@@ -8,7 +8,7 @@ using System.Windows;
 using Caps.HotKey;
 using static Caps.KeyBoard.Structures.VkCodes;
 using static Caps.KeyBoard.Structures.Modifiers;
-using Caps.ClipBoard;
+using static Caps.Core.Utils;
 using Clipboard = Caps.ClipBoard.Clipboard;
 
 namespace Caps.Core
@@ -34,12 +34,12 @@ namespace Caps.Core
 			{
 				case VkX: // A stack-like clipboard, cut
 					KeyBoard.Send.KeyCombination(VkControl, VkX);
-					Thread.Sleep(50);
+					Delay();
 					Clipboard.Push();
 					break;
 				case VkC: // A stack-like clipboard, copy
 					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
-					Thread.Sleep(50);
+					Delay();
 					Clipboard.Push();
 					break;
 				case VkV: // A stack-like clipboard, paste
@@ -91,23 +91,32 @@ namespace Caps.Core
 					break;
 				case VkQuote:
 					Clipboard.Push();
+					Clipboard.SetText("");
 					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
+					Delay();
 					Clipboard.SetText($"\"{Clipboard.GetText()}\"");
 					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Delay();
 					Clipboard.Pop();
 					break;
 				case VkLBrace:
 					Clipboard.Push();
+					Clipboard.SetText("");
 					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
-					Clipboard.SetText(string.Concat("[", Clipboard.GetText(), "]"));
+					Delay();
+					Clipboard.SetText(string.Concat("(", Clipboard.GetText(), ")"));
 					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Delay();
 					Clipboard.Pop();
 					break;
 				case VkRBrace:
 					Clipboard.Push();
+					Clipboard.SetText("");
 					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
+					Delay();
 					Clipboard.SetText($"{{{Clipboard.GetText()}}}");
 					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Delay();
 					Clipboard.Pop();
 					break;
 			}

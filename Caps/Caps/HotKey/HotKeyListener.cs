@@ -16,6 +16,7 @@ namespace Caps.HotKey
 		public event EventHandler<HotKeyEventArgs> HotKeyTriggered;
 		private ModifierKeyState _modifierKeyState;
 		private bool _isSingleCaptial;
+		private uint _lasttrig = 0;
 
 		public HotKeyListener()
 		{
@@ -26,7 +27,7 @@ namespace Caps.HotKey
 		private bool KeyboardEventCallback(int vkCode, KeyboardMessages keyboardMessage, uint time)
 		{
 			if (vkCode == VkCodes.VkCapital)
-			{ _modifierKeyState = new ModifierKeyState();
+			{
 				this._modifierKeyState.CapsLock = keyboardMessage == KeyboardMessages.WmKeydown;
 				if (keyboardMessage == KeyboardMessages.WmKeyup && _isSingleCaptial)
 				{
@@ -61,9 +62,14 @@ namespace Caps.HotKey
 						{
 							return true;
 						}
-						HotKeyTriggered?.BeginInvoke(this,
-				new HotKeyEventArgs(_modifierKeyState.Shift, _modifierKeyState.Ctrl, _modifierKeyState.Alt, _modifierKeyState.Win,
-					vkCode), null, null);
+						if (time - _lasttrig > 100)
+						{
+							HotKeyTriggered?.BeginInvoke(this,
+								new HotKeyEventArgs(_modifierKeyState.Shift, _modifierKeyState.Ctrl, _modifierKeyState.Alt,
+									_modifierKeyState.Win,
+									vkCode), null, null);
+							_lasttrig = time;
+						}
 						break;
 				}
 				return false;

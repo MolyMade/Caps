@@ -62,6 +62,7 @@
     <Compile Include="ClipBoard\HandleOleApi.cs" />
     <Compile Include="ClipBoard\Structures\Command.cs" />
     <Compile Include="Core\Core.cs" />
+    <Compile Include="Core\Utils.cs" />
     <Compile Include="HotKey\HotKeyListener.cs" />
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
