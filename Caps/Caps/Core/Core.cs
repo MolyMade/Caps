@@ -16,12 +16,11 @@ namespace Caps.Core
 	public class Core
 	{
 		protected HotKeyListener HotKeyListener = new HotKeyListener();
-		protected CapShow CapShow = new CapShow();
-		protected SynchronizationContext Context;
+		protected MainWindow MainWindow;
 
-		public Core(SynchronizationContext context)
+		public Core(MainWindow mainWindow)
 		{
-			Context = context;
+			MainWindow = mainWindow;
 		}
 
 		public void Run()
@@ -33,62 +32,62 @@ namespace Caps.Core
 		{
 			switch (e.HardCode)
 			{
-				case VK_X:    // A stack-like clipboard, cut
-					KeyBoard.Send.KeyCombination(VK_CONTROL, VK_X);
+				case VkX:    // A stack-like clipboard, cut
+					KeyBoard.Send.KeyCombination(VkControl, VkX);
 					Thread.Sleep(50);
 					Clipboard.Push();
 					break;
-				case VK_C:    // A stack-like clipboard, copy
-					KeyBoard.Send.KeyCombination(VK_CONTROL, VK_INSERT);
+				case VkC:    // A stack-like clipboard, copy
+					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
 					Thread.Sleep(50);
 					Clipboard.Push();
 					break;
-				case VK_V:    // A stack-like clipboard, paste
+				case VkV:    // A stack-like clipboard, paste
 					Clipboard.Pop();
-					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_INSERT);
+					KeyBoard.Send.KeyCombination(VkShift, VkInsert);
 					break;
-				case VK_RETURN: //Create a new line wherever cursor is located
-					KeyBoard.Send.Key(VK_END);
-					KeyBoard.Send.Key(VK_RETURN);
+				case VkReturn: //Create a new line wherever cursor is located
+					KeyBoard.Send.Key(VkEnd);
+					KeyBoard.Send.Key(VkReturn);
 					break;
-				case VK_BACK:
-					KeyBoard.Send.Key(VK_END);
-					KeyBoard.Send.KeyCombination(VK_SHIFT,VK_HOME);
-					KeyBoard.Send.Key(VK_BACK);
-					KeyBoard.Send.Key(VK_BACK);
+				case VkBack:
+					KeyBoard.Send.Key(VkEnd);
+					KeyBoard.Send.KeyCombination(VkShift,VkHome);
+					KeyBoard.Send.Key(VkBack);
+					KeyBoard.Send.Key(VkBack);
 					break;
-				case Shift | VK_BACK:
-					KeyBoard.Send.Key(VK_UP);
-					KeyBoard.Send.Key(VK_END);
-					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_HOME);
-					KeyBoard.Send.Key(VK_BACK);
-					KeyBoard.Send.Key(VK_BACK);
+				case Shift | VkBack:
+					KeyBoard.Send.Key(VkUp);
+					KeyBoard.Send.Key(VkEnd);
+					KeyBoard.Send.KeyCombination(VkShift, VkHome);
+					KeyBoard.Send.Key(VkBack);
+					KeyBoard.Send.Key(VkBack);
 					break;
-				case VK_DELETE:
-					KeyBoard.Send.Key(VK_END);
-					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_HOME);
-					KeyBoard.Send.Key(VK_DELETE);
+				case VkDelete:
+					KeyBoard.Send.Key(VkEnd);
+					KeyBoard.Send.KeyCombination(VkShift, VkHome);
+					KeyBoard.Send.Key(VkDelete);
 					break;
-				case Shift | VK_DELETE:
-					KeyBoard.Send.Key(VK_UP);
-					KeyBoard.Send.Key(VK_END);
-					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_HOME);
-					KeyBoard.Send.Key(VK_DELETE);
+				case Shift | VkDelete:
+					KeyBoard.Send.Key(VkUp);
+					KeyBoard.Send.Key(VkEnd);
+					KeyBoard.Send.KeyCombination(VkShift, VkHome);
+					KeyBoard.Send.Key(VkDelete);
 					break;
-				case VK_H: 
-					KeyBoard.Send.Key(VK_LEFT);
+				case VkH: 
+					KeyBoard.Send.Key(VkLeft);
 					break;
-				case VK_J:
-					KeyBoard.Send.Key(VK_DOWN);
+				case VkJ:
+					KeyBoard.Send.Key(VkDown);
 					break;
-				case VK_K:
-					KeyBoard.Send.Key(VK_UP);
+				case VkK:
+					KeyBoard.Send.Key(VkUp);
 					break;
-				case VK_L:
-					KeyBoard.Send.Key(VK_RIGHT);
+				case VkL:
+					KeyBoard.Send.Key(VkRight);
 					break;
-				case VK_Q:
-					Context.Post(CapShow.Toggle ,null);
+				case VkQ:
+					MainWindow.Context.Send(MainWindow.ShowCap,null);
 					break;
 			}
 		}

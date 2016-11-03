@@ -11,12 +11,12 @@ namespace Caps.KeyBoard
 	{
 		public static  void KeyDown(byte virtualKeyCode)
 		{
-			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KEYEVENTF_KEYDOWN, 0);
+			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KeyeventfKeydown, 0);
 		}
 
 		public static void KeyUp(byte virtualKeyCode)
 		{
-			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KEYEVENTF_KEYUP, 0);
+			NativeMethods.keybd_event(virtualKeyCode, 0, KeyEvents.KeyeventfKeyup, 0);
 		}
 
 		public static void Key(byte virtualKeyCode)

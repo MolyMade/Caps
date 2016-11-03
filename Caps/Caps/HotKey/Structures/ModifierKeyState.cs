@@ -15,10 +15,10 @@ namespace Caps.HotKey.Structures
 
 		public ModifierKeyState()
 		{
-			Shift = IsKeyDown(VK_LSHIFT) || IsKeyDown(VK_RSHIFT);
-			Ctrl = IsKeyDown(VK_LCONTROL) || IsKeyDown(VK_RCONTROL);
-			Alt = IsKeyDown(VK_LMENU) || IsKeyDown(VK_RMENU);
-			Win = IsKeyDown(VK_LWIN) || IsKeyDown(VK_RWIN);
+			Shift = IsKeyDown(VkLshift) || IsKeyDown(VkRshift);
+			Ctrl = IsKeyDown(VkLcontrol) || IsKeyDown(VkRcontrol);
+			Alt = IsKeyDown(VkLmenu) || IsKeyDown(VkRmenu);
+			Win = IsKeyDown(VkLwin) || IsKeyDown(VkRwin);
 		}
 
 		private static bool IsKeyDown(int key)

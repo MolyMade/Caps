@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="61" Margin="33,147,0,0" VerticalAlignment="Top" Width="106" Click="button_Click"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="34" Margin="33,70,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="106"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="34" Margin="211,70,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="105"/>
-        <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Height="61" Margin="222,147,0,0" VerticalAlignment="Top" Width="94" Click="button1_Click"/>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Height="45" Margin="361,70,0,0" VerticalAlignment="Top" Width="107"/>
+        <Button x:Name="Button" Content="Button" HorizontalAlignment="Left" Height="61" Margin="33,147,0,0" VerticalAlignment="Top" Width="106" Click="button_Click"/>
+        <TextBox x:Name="TextBox" HorizontalAlignment="Left" Height="34" Margin="33,70,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="106"/>
+        <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="34" Margin="211,70,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="105"/>
+        <Button x:Name="Button1" Content="Button" HorizontalAlignment="Left" Height="61" Margin="222,147,0,0" VerticalAlignment="Top" Width="94" Click="button1_Click"/>
+        <Label x:Name="Label" Content="Label" HorizontalAlignment="Left" Height="45" Margin="361,70,0,0" VerticalAlignment="Top" Width="107"/>
 
     </Grid>
 </Window>

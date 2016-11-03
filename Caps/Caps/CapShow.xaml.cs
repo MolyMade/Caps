@@ -22,19 +22,7 @@ namespace Caps
 		public CapShow()
 		{
 			InitializeComponent();
-		}
-
-		public void Toggle(object o)
-		{
-			if (this.Visibility == Visibility.Visible)
-			{
-				this.Hide();
-			}
-			else
-			{		
-				this.Show();
-				this.textBox.Focus();
-			}
+			this.TextBox.Focus();
 		}
 
 		private void Window_Deactivated(object sender, EventArgs e)

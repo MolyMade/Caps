@@ -21,7 +21,7 @@ namespace Caps.KeyBoard
         public void Hook()
         {
 			if(_hooked) return;
-            _hookId = SetWindowsHook(HookType.WH_KEYBOARD_LL, _lowLevelcallback);
+            _hookId = SetWindowsHook(HookType.WhKeyboardLl, _lowLevelcallback);
             _hooked = true;
         }
 
@@ -36,7 +36,7 @@ namespace Caps.KeyBoard
         {
             if (nCode >= 0)
             {
-                var lParamStruct = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
+                var lParamStruct = (Kbdllhookstruct)Marshal.PtrToStructure(lParam, typeof(Kbdllhookstruct));
 	            if ((lParamStruct.Flags >> 4 & 1) == 0 &&
 					!_keyboardEventCallback(lParamStruct.VkCode,(KeyboardMessages)wParam, lParamStruct.Time))
 	            {

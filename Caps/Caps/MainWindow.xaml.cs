@@ -18,14 +18,20 @@ namespace Caps
 	public partial class MainWindow : Window
 	{
 		
-		private SynchronizationContext c = SynchronizationContext.Current;
-		private Core.Core core;
+		public SynchronizationContext Context = SynchronizationContext.Current;
+		private Core.Core _core;
 		public MainWindow()
 		{
 			InitializeComponent();
 			this.Hide();
-			core = new Core.Core(c);
-			core.Run();
+			_core = new Core.Core(this);
+			_core.Run();
+		}
+
+		public void ShowCap(object o)
+		{
+			CapShow cap = new CapShow();
+			cap.Show();
 		}
 
 		private void button_Click(object sender, RoutedEventArgs e)

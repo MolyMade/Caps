@@ -25,12 +25,12 @@ namespace Caps.HotKey
 
 		private bool KeyboardEventCallback(int vkCode, KeyboardMessages keyboardMessage, uint time)
 		{
-			if (vkCode == VkCodes.VK_CAPITAL)
+			if (vkCode == VkCodes.VkCapital)
 			{ _modifierKeyState = new ModifierKeyState();
 				this._modifierKeyState.CapsLock = keyboardMessage == KeyboardMessages.WmKeydown;
 				if (keyboardMessage == KeyboardMessages.WmKeyup && _isSingleCaptial)
 				{
-					Send.Key(VkCodes.VK_CAPITAL);
+					Send.Key(VkCodes.VkCapital);
 				}
 				_isSingleCaptial = true;
 				return false;
@@ -40,20 +40,20 @@ namespace Caps.HotKey
 				_isSingleCaptial = false;
 				switch (vkCode)
 				{
-					case VkCodes.VK_LSHIFT:
-					case VkCodes.VK_RSHIFT:
+					case VkCodes.VkLshift:
+					case VkCodes.VkRshift:
 						this._modifierKeyState.Shift = keyboardMessage == KeyboardMessages.WmKeydown;
 						break;
-					case VkCodes.VK_LCONTROL:
-					case VkCodes.VK_RCONTROL:
+					case VkCodes.VkLcontrol:
+					case VkCodes.VkRcontrol:
 						this._modifierKeyState.Ctrl = keyboardMessage == KeyboardMessages.WmKeydown;
 						break;
-					case VkCodes.VK_LMENU:
-					case VkCodes.VK_RMENU:
+					case VkCodes.VkLmenu:
+					case VkCodes.VkRmenu:
 						this._modifierKeyState.Alt = keyboardMessage == KeyboardMessages.WmSyskeydown;
 						break;
-					case VkCodes.VK_LWIN:
-					case VkCodes.VK_RWIN:
+					case VkCodes.VkLwin:
+					case VkCodes.VkRwin:
 						this._modifierKeyState.Win = keyboardMessage == KeyboardMessages.WmKeydown;
 						break;
 					default:

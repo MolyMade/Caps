@@ -8,7 +8,7 @@ namespace Caps.HotKey.Structures
 {
 	public enum HotKeyGroup
 	{
-		a,
-		b
+		A,
+		B
 	}
 }

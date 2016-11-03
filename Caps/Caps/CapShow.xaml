@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="CapShow" Height="50" Width="500" Opacity="0.8" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" Deactivated="Window_Deactivated" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
     <Grid Height="50" VerticalAlignment="Top">
-        <TextBox x:Name="textBox" FontSize="36" MaxLines="1" MouseDown="textBox_MouseDown"/>
+        <TextBox x:Name="TextBox" FontSize="36" MaxLines="1" MouseDown="textBox_MouseDown"/>
 
     </Grid>
 </Window>

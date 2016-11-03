@@ -17,8 +17,8 @@ namespace Caps.ClipBoard
 		internal static ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
 		internal static BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
 		internal static BlockingCollection<bool> Returns = new BlockingCollection<bool>();
-		private static string GetString = "";
-		private static string SetString = "";
+		private static string _getString = "";
+		private static string _setString = "";
 		internal static Thread ClipboardDaemon;
 
 		static Clipboard()
@@ -69,11 +69,11 @@ namespace Caps.ClipBoard
 						Returns.Add(true);
 						break;
 					case Command.GetText:
-						GetString = HandleOleApi.GetText();
+						_getString = HandleOleApi.GetText();
 						Returns.Add(true);
 						break;
 					case Command.SetText:
-						HandleOleApi.SetText(SetString);
+						HandleOleApi.SetText(_setString);
 						Returns.Add(true);
 						break;
 					case Command.Exit:
@@ -101,14 +101,14 @@ namespace Caps.ClipBoard
 			Commands.Add(Command.GetText);
 			if (Returns.Take())
 			{
-				return GetString;
+				return _getString;
 			}
 			return "";
 		}
 
 		public static bool SetText(string s)
 		{
-			SetString = s;
+			_setString = s;
 			Commands.Add(Command.SetText);
 			return Returns.Take();
 		}
