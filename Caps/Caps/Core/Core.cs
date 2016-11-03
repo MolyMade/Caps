@@ -16,10 +16,12 @@ namespace Caps.Core
 	public class Core
 	{
 		protected HotKeyListener HotKeyListener = new HotKeyListener();
+		protected CapShow CapShow = new CapShow();
+		protected SynchronizationContext Context;
 
-		public Core()
+		public Core(SynchronizationContext context)
 		{
-
+			Context = context;
 		}
 
 		public void Run()
@@ -84,6 +86,9 @@ namespace Caps.Core
 					break;
 				case VK_L:
 					KeyBoard.Send.Key(VK_RIGHT);
+					break;
+				case VK_Q:
+					Context.Post(CapShow.Toggle ,null);
 					break;
 			}
 		}

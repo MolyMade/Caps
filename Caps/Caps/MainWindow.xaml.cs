@@ -17,11 +17,14 @@ namespace Caps
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		Core.Core core = new Core.Core();
+		
 		private SynchronizationContext c = SynchronizationContext.Current;
+		private Core.Core core;
 		public MainWindow()
 		{
 			InitializeComponent();
+			this.Hide();
+			core = new Core.Core(c);
 			core.Run();
 		}
 

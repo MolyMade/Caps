@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CapShow.xaml.cs">
+      <DependentUpon>CapShow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClipBoard\Clipboard.cs" />
     <Compile Include="ClipBoard\HandleOleApi.cs" />
     <Compile Include="ClipBoard\Structures\Command.cs" />
@@ -63,6 +66,10 @@
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
     <Compile Include="HotKey\Structures\ModifierKeyState.cs" />
+    <Page Include="CapShow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
