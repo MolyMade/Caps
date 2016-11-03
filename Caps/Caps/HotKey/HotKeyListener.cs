@@ -74,7 +74,7 @@ namespace Caps.HotKey
 			//HotKeyTriggered?.Invoke(this,
 			//	new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
 			//		vkCode));
-			IAsyncResult ir = HotKeyTriggered?.BeginInvoke(this,
+			HotKeyTriggered?.BeginInvoke(this,
 				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
 					vkCode), null, null);
 		}
