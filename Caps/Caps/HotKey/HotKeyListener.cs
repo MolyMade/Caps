@@ -26,7 +26,7 @@ namespace Caps.HotKey
 		private bool KeyboardEventCallback(int vkCode, KeyboardMessages keyboardMessage, uint time)
 		{
 			if (vkCode == VkCodes.VK_CAPITAL)
-			{
+			{ _modifierKeyState = new ModifierKeyState();
 				this._modifierKeyState.CapsLock = keyboardMessage == KeyboardMessages.WmKeydown;
 				if (keyboardMessage == KeyboardMessages.WmKeyup && _isSingleCaptial)
 				{

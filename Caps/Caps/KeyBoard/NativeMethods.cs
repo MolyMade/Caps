@@ -25,5 +25,8 @@ namespace Caps.KeyBoard
 
 		[DllImport("user32.dll")]
 		internal static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, uint dwExtraInfo);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+		public static extern short GetKeyState(int keyCode);
 	}
 }
