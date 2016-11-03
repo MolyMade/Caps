@@ -25,6 +25,7 @@ namespace Caps
 			this.TextBox.Focus();
 		}
 
+
 		private void Window_Deactivated(object sender, EventArgs e)
 		{
 			this.Hide();

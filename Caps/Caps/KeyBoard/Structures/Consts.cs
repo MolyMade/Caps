@@ -179,10 +179,10 @@
 		public const byte VkOemPeriod = 0xBE; //For any country/region, the '.' key
 		public const byte VkOem2 = 0xBF; //Used for miscellaneous characters; it can vary by keyboard.
 		public const byte VkOem3 = 0xC0; //Used for miscellaneous characters; it can vary by keyboard.
-		public const byte VkOem4 = 0xDB; //Used for miscellaneous characters; it can vary by keyboard.
-		public const byte VkOem5 = 0xDC; //Used for miscellaneous characters; it can vary by keyboard.
-		public const byte VkOem6 = 0xDD; //Used for miscellaneous characters; it can vary by keyboard.
-		public const byte VkOem7 = 0xDE; //Used for miscellaneous characters; it can vary by keyboard.
+		public const byte VkLBrace = 0xDB; //大括号
+		public const byte VkOem5 = 0xDC; //
+		public const byte VkRBrace = 0xDD; //大括号
+		public const byte VkQuote = 0xDE; // 引号
 		public const byte VkOem8 = 0xDF; //Used for miscellaneous characters; it can vary by keyboard.
 		public const byte VkOem102 = 0xE2; //Either the angle bracket key or the backslash key on the RT 102-key keyboard
 		public const byte VkProcesskey = 0xE5; //IME PROCESS key

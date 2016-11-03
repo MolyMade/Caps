@@ -35,7 +35,7 @@ namespace Caps.HotKey
 				_isSingleCaptial = true;
 				return false;
 			}
-			else if (this._modifierKeyState.CapsLock)
+			if (this._modifierKeyState.CapsLock)
 			{
 				_isSingleCaptial = false;
 				switch (vkCode)

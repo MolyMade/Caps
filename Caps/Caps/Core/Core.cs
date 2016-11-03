@@ -32,17 +32,17 @@ namespace Caps.Core
 		{
 			switch (e.HardCode)
 			{
-				case VkX:    // A stack-like clipboard, cut
+				case VkX: // A stack-like clipboard, cut
 					KeyBoard.Send.KeyCombination(VkControl, VkX);
 					Thread.Sleep(50);
 					Clipboard.Push();
 					break;
-				case VkC:    // A stack-like clipboard, copy
+				case VkC: // A stack-like clipboard, copy
 					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
 					Thread.Sleep(50);
 					Clipboard.Push();
 					break;
-				case VkV:    // A stack-like clipboard, paste
+				case VkV: // A stack-like clipboard, paste
 					Clipboard.Pop();
 					KeyBoard.Send.KeyCombination(VkShift, VkInsert);
 					break;
@@ -52,7 +52,7 @@ namespace Caps.Core
 					break;
 				case VkBack:
 					KeyBoard.Send.Key(VkEnd);
-					KeyBoard.Send.KeyCombination(VkShift,VkHome);
+					KeyBoard.Send.KeyCombination(VkShift, VkHome);
 					KeyBoard.Send.Key(VkBack);
 					KeyBoard.Send.Key(VkBack);
 					break;
@@ -74,7 +74,7 @@ namespace Caps.Core
 					KeyBoard.Send.KeyCombination(VkShift, VkHome);
 					KeyBoard.Send.Key(VkDelete);
 					break;
-				case VkH: 
+				case VkH:
 					KeyBoard.Send.Key(VkLeft);
 					break;
 				case VkJ:
@@ -87,7 +87,28 @@ namespace Caps.Core
 					KeyBoard.Send.Key(VkRight);
 					break;
 				case VkQ:
-					MainWindow.Context.Send(MainWindow.ShowCap,null);
+					MainWindow.Context.Send(MainWindow.ShowCap, null);
+					break;
+				case VkQuote:
+					Clipboard.Push();
+					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
+					Clipboard.SetText($"\"{Clipboard.GetText()}\"");
+					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Clipboard.Pop();
+					break;
+				case VkLBrace:
+					Clipboard.Push();
+					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
+					Clipboard.SetText(string.Concat("[", Clipboard.GetText(), "]"));
+					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Clipboard.Pop();
+					break;
+				case VkRBrace:
+					Clipboard.Push();
+					KeyBoard.Send.KeyCombination(VkControl, VkInsert);
+					Clipboard.SetText($"{{{Clipboard.GetText()}}}");
+					KeyBoard.Send.KeyCombination(VkControl, VkV);
+					Clipboard.Pop();
 					break;
 			}
 		}
