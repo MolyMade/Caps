@@ -61,22 +61,14 @@ namespace Caps.HotKey
 						{
 							return true;
 						}
-						OnHotKeyTriggered(_modifierKeyState, vkCode);
+						HotKeyTriggered?.BeginInvoke(this,
+				new HotKeyEventArgs(_modifierKeyState.Shift, _modifierKeyState.Ctrl, _modifierKeyState.Alt, _modifierKeyState.Win,
+					vkCode), null, null);
 						break;
 				}
 				return false;
 			}
 			return true;
-		}
-
-		protected void OnHotKeyTriggered(ModifierKeyState modifierKeyState, int vkCode)
-		{
-			//HotKeyTriggered?.Invoke(this,
-			//	new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
-			//		vkCode));
-			HotKeyTriggered?.BeginInvoke(this,
-				new HotKeyEventArgs(modifierKeyState.Shift, modifierKeyState.Ctrl, modifierKeyState.Alt, modifierKeyState.Win,
-					vkCode), null, null);
 		}
 
 		public void Dispose()
