@@ -55,6 +55,13 @@ namespace Caps.Core
 					KeyBoard.Send.Key(VK_BACK);
 					KeyBoard.Send.Key(VK_BACK);
 					break;
+				case Shift | VK_BACK:
+					KeyBoard.Send.Key(VK_UP);
+					KeyBoard.Send.Key(VK_END);
+					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_HOME);
+					KeyBoard.Send.Key(VK_BACK);
+					KeyBoard.Send.Key(VK_BACK);
+					break;
 				case VK_DELETE:
 					KeyBoard.Send.Key(VK_END);
 					KeyBoard.Send.KeyCombination(VK_SHIFT, VK_HOME);
