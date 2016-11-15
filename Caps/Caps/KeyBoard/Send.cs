@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caps.KeyBoard.Structures;
+using Caps.Misc;
 
 namespace Caps.KeyBoard
 {
@@ -42,6 +43,17 @@ namespace Caps.KeyBoard
 			KeyUp(modifier2);
 			KeyUp(modifier1);
 		}
-		
+
+		public static void ClickSequence(params byte[] keys)
+		{
+			keys.ForEach(Key);
+		}
+
+		public static void CombinationSequence(params byte[] keys)
+		{
+			keys.ForEach(KeyDown);
+			keys.Reverse().ForEach(KeyUp);
+		}
+
 	}
 }
