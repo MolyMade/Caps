@@ -78,7 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CapShow.xaml.cs">
+    <Compile Include="CapShow\CapShow.xaml.cs">
       <DependentUpon>CapShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClipBoard\Clipboard.cs" />
@@ -90,11 +90,11 @@
     <Compile Include="HotKey\Structures\Enums.cs" />
     <Compile Include="HotKey\Structures\HotKeyEventArgs.cs" />
     <Compile Include="HotKey\Structures\ModifierKeyState.cs" />
-    <Page Include="CapShow.xaml">
+    <Page Include="CapShow\CapShow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="CapMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -109,8 +109,8 @@
     <Compile Include="KeyBoard\KeyHook.cs" />
     <Compile Include="KeyBoard\Structures\Delegates.cs" />
     <Compile Include="KeyBoard\NativeMethods.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="CapMain.xaml.cs">
+      <DependentUpon>CapMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -142,9 +142,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CapShow\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
       <Visible>False</Visible>

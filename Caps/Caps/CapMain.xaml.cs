@@ -20,6 +20,7 @@ namespace Caps
 		
 		public SynchronizationContext Context = SynchronizationContext.Current;
 		private Core.Core _core;
+		private readonly CapShow.CapShow _cap = new CapShow.CapShow();
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -30,18 +31,8 @@ namespace Caps
 
 		public void ShowCap(object o)
 		{
-			CapShow cap = new CapShow();
-			cap.Show();
+			_cap.Show();
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void button1_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
 	}
 }

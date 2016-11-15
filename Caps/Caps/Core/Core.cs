@@ -51,46 +51,34 @@ namespace Caps.Core
 					Send.Key(VkEnd);
 					Send.Key(VkReturn);
 					break;
-				case VkBack:
+				case VkBack: //Delete the whole line
 					Send.Key(VkEnd);
 					Send.KeyCombination(VkShift, VkHome);
 					Send.Key(VkBack);
-					Send.Key(VkBack);
 					break;
-				case Shift | VkBack:
+				case Shift | VkBack: //Delete previous line
 					Send.Key(VkUp);
 					Send.Key(VkEnd);
 					Send.KeyCombination(VkShift, VkHome);
 					Send.Key(VkBack);
 					Send.Key(VkBack);
 					break;
-				case VkDelete:
-					Send.Key(VkEnd);
-					Send.KeyCombination(VkShift, VkHome);
-					Send.Key(VkDelete);
-					break;
-				case Shift | VkDelete:
-					Send.Key(VkUp);
-					Send.Key(VkEnd);
-					Send.KeyCombination(VkShift, VkHome);
-					Send.Key(VkDelete);
-					break;
-				case VkH:
+				case VkH: //Left arrow
 					Send.Key(VkLeft);
 					break;
-				case VkJ:
+				case VkJ: //Down arrow
 					Send.Key(VkDown);
 					break;
-				case VkK:
+				case VkK: //Up arrow
 					Send.Key(VkUp);
 					break;
-				case VkL:
+				case VkL: //Right arrow
 					Send.Key(VkRight);
 					break;
-				case VkQ:
+				case VkQ: //Show Cap window
 					MainWindow.Context.Send(MainWindow.ShowCap, null);
 					break;
-				case VkQuote:
+				case VkQuote: //Add selected text ("")
 					Clipboard.Push();
 					Clipboard.SetText("");
 					Send.KeyCombination(VkControl, VkInsert);
@@ -100,7 +88,7 @@ namespace Caps.Core
 					Delay();
 					Clipboard.Pop();
 					break;
-				case VkLBrace:
+				case VkLBrace://Add selected text (())
 					Clipboard.Push();
 					Clipboard.SetText("");
 					Send.KeyCombination(VkControl, VkInsert);
@@ -110,7 +98,7 @@ namespace Caps.Core
 					Delay();
 					Clipboard.Pop();
 					break;
-				case VkRBrace:
+				case VkRBrace://Add selected text ({})
 					Clipboard.Push();
 					Clipboard.SetText("");
 					Send.KeyCombination(VkControl, VkInsert);
@@ -120,7 +108,7 @@ namespace Caps.Core
 					Delay();
 					Clipboard.Pop();
 					break;
-				case VkEscape:
+				case VkEscape: //Exit Application
 					this.MainWindow.Context.Post(x => { this.MainWindow.Close(); }, null);
 					break;
 

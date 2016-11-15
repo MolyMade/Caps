@@ -10,7 +10,7 @@ namespace Caps.Misc
 	{
 		public static void ForEach<T>(this T[] array, Action<T> action)
 		{
-			foreach (T item in array)
+			foreach (var item in array)
 			{
 				action(item);
 			}
@@ -18,7 +18,7 @@ namespace Caps.Misc
 
 		public static void ForEach<T>(this IEnumerable<T> iEnumerable, Action<T> action)
 		{
-			foreach (T item in iEnumerable)
+			foreach (var item in iEnumerable)
 			{
 				action(item);
 			}
