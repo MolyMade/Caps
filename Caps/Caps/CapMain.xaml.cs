@@ -15,13 +15,13 @@ namespace Caps
 	/// <summary>
 	/// MainWindow.xaml 的交互逻辑
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class CapMain: Window
 	{
 		
 		public SynchronizationContext Context = SynchronizationContext.Current;
-		private Core.Core _core;
+		private readonly Core.Core _core;
 		private readonly CapShow.CapShow _cap = new CapShow.CapShow();
-		public MainWindow()
+		public CapMain()
 		{
 			InitializeComponent();
 			this.Hide();

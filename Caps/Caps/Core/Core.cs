@@ -17,9 +17,9 @@ namespace Caps.Core
 	public class Core
 	{
 		protected HotKeyListener HotKeyListener = new HotKeyListener();
-		protected MainWindow MainWindow;
+		protected CapMain MainWindow;
 
-		public Core(MainWindow mainWindow)
+		public Core(CapMain mainWindow)
 		{
 			MainWindow = mainWindow;
 		}
