@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using Caps.ClipBoard.Structures;
 
@@ -17,8 +11,8 @@ namespace Caps.ClipBoard
 		internal static ConcurrentStack<IDataObject> ObjectStack = new ConcurrentStack<IDataObject>();
 		internal static BlockingCollection<Command> Commands = new BlockingCollection<Command>(1);
 		internal static BlockingCollection<bool> Returns = new BlockingCollection<bool>();
-		private static string _getString = "";
-		private static string _setString = "";
+		internal static string GetString = string.Empty;
+		internal static string SetString = string.Empty;
 		internal static Thread ClipboardDaemon;
 
 		static Clipboard()
@@ -27,26 +21,25 @@ namespace Caps.ClipBoard
 			ClipboardDaemon.SetApartmentState(ApartmentState.STA);
 			ClipboardDaemon.IsBackground = true;
 			ClipboardDaemon.Start();
-
 		}
 
 		internal static void EventLoop()
 		{
 			while (true)
 			{
-				Command c = Commands.Take();
+				var c = Commands.Take();
 				switch (c)
 				{
 					case Command.Push:
-						IDataObject obj = HandleOleApi.GetDataObject();
+						var obj = HandleOleApi.GetDataObject();
 						var formats = obj.GetFormats();
 						IDataObject newObj = new DataObject();
-						foreach (string format in formats)
+						foreach (var format in formats)
 						{
 							object d;
 							try
 							{
-								d = obj.GetData(format,false);
+								d = obj.GetData(format, false);
 							}
 							catch
 							{
@@ -54,7 +47,7 @@ namespace Caps.ClipBoard
 							}
 							if (d != null)
 							{
-								newObj.SetData(format,d );
+								newObj.SetData(format, d);
 							}
 						}
 						ObjectStack.Push(newObj);
@@ -69,14 +62,15 @@ namespace Caps.ClipBoard
 						Returns.Add(true);
 						break;
 					case Command.GetText:
-						_getString = HandleOleApi.GetText();
+						GetString = HandleOleApi.GetText();
 						Returns.Add(true);
 						break;
 					case Command.SetText:
-						HandleOleApi.SetText(_setString);
+						HandleOleApi.SetText(SetString);
 						Returns.Add(true);
 						break;
 					case Command.Exit:
+						Returns.Add(true);
 						return;
 					default:
 						throw new Exception("No such command");
@@ -99,16 +93,12 @@ namespace Caps.ClipBoard
 		public static string GetText()
 		{
 			Commands.Add(Command.GetText);
-			if (Returns.Take())
-			{
-				return _getString;
-			}
-			return "";
+			return Returns.Take() ? GetString : string.Empty;
 		}
 
 		public static bool SetText(string s)
 		{
-			_setString = s;
+			SetString = s;
 			Commands.Add(Command.SetText);
 			return Returns.Take();
 		}
