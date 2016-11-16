@@ -56,6 +56,9 @@
   <PropertyGroup>
     <StartupObject>Caps.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Caps.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -80,6 +83,12 @@
     </ApplicationDefinition>
     <Compile Include="CapShow\CapShow.xaml.cs">
       <DependentUpon>CapShow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CapShow\QueryBox.xaml.cs">
+      <DependentUpon>QueryBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CapShow\QueryBoxItem.xaml.cs">
+      <DependentUpon>QueryBoxItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClipBoard\Clipboard.cs" />
     <Compile Include="ClipBoard\HandleOleApi.cs" />
@@ -113,6 +122,14 @@
       <DependentUpon>CapMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="CapShow\QueryBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CapShow\QueryBoxItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\ExtensionMethods.cs" />
@@ -142,7 +159,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Caps.ico" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
       <Visible>False</Visible>
@@ -154,6 +173,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CapsTiny.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

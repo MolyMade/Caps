@@ -12,7 +12,7 @@ namespace Caps.CapShow
 		public CapShow()
 		{
 			InitializeComponent();
-			this.TextBox.Focus();
+			//this.TextBox.Focus();
 		}
 
 
