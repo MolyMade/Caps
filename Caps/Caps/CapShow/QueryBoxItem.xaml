@@ -15,7 +15,7 @@
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="90*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="QueryIcon" Grid.RowSpan="2" HorizontalAlignment="Center" Source="/Caps;component/CapsTiny.ico" VerticalAlignment="Center"/>
+        <Image x:Name="QueryIcon" Grid.RowSpan="2" Source="/Caps;component/CapsTiny.ico" Margin="5"/>
         <TextBlock x:Name="QueryText" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="Query text is here ................" FontSize="24" Margin="10,0,0,0"/>
         <TextBlock x:Name="DescriptionText" Grid.Column="1" Grid.Row="1" Text="Desctription text is here ...........
                    " FontSize="14" Margin="10,0,0,0"/>
