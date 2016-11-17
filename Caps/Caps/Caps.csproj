@@ -84,6 +84,8 @@
     <Compile Include="CapShow\CapShow.xaml.cs">
       <DependentUpon>CapShow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CapShow\DataTypes\ItemTriggeredEvent.cs" />
+    <Compile Include="CapShow\DataTypes\QueryItem.cs" />
     <Compile Include="CapShow\QueryBox.xaml.cs">
       <DependentUpon>QueryBox.xaml</DependentUpon>
     </Compile>

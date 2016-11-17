@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Caps.CapShow.DataTypes;
+using Microsoft.SqlServer.Server;
 
 namespace Caps.CapShow
 {
@@ -26,6 +28,24 @@ namespace Caps.CapShow
 		public QueryBoxItem()
 		{
 			InitializeComponent();
+			
+		}
+
+		public event EventHandler<KeyEventArgs> ItemTriggered;
+
+		public QueryItem BindItem
+		{
+			get
+			{
+				return new QueryItem(this.QueryText,this.DescriptionText,this.QueryIcon,this.ItemTriggered);
+			}
+			set
+			{
+				this.QueryText = value.QueryText;
+				this.DescriptionText = DescriptionText;
+				this.QueryIcon = QueryIcon;
+				this.ItemTriggered += ItemTriggered;
+			} 
 		}
 
 		[Description("Get or set query text.")]
@@ -50,6 +70,11 @@ namespace Caps.CapShow
 		{
 			get { return QueryIconBlock.Source as BitmapImage;}
 			set { QueryIconBlock.Source = value; }
+		}
+
+		private void UserControl_KeyDown(object sender, KeyEventArgs e)
+		{
+			ItemTriggered?.Invoke(this,e);
 		}
 	}
 }

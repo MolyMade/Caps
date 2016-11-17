@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Caps.CapShow"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="500">
+             d:DesignHeight="50" d:DesignWidth="500" KeyDown="UserControl_KeyDown">
     <Grid Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -15,10 +15,9 @@
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="90*"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="QueryIconBlock"Grid.RowSpan="2" Source="/Caps;component/CapsTiny.ico" Margin="5"/>
-        <TextBlock x:Name="QueryTextBlock" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="Query text is here ................" FontSize="24" Margin="10,0,0,0"/>
-        <TextBlock x:Name="DescriptionTextBlock" Grid.Column="1" Grid.Row="1" Text="Desctription text is here ...........
-                   " FontSize="14" Margin="10,0,0,0"/>
+        <Image x:Name="QueryIconBlock" Source="/Caps;component/CapsTiny.ico" Margin="5,5,5,5" Grid.RowSpan="2"/>
+        <TextBlock x:Name="QueryTextBlock" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Text="Query text goes here ..." FontSize="24" Margin="10,0,0,0"/>
+        <TextBlock x:Name="DescriptionTextBlock" Grid.Column="1" Grid.Row="1" Text="Desctription text goes here ..." FontSize="14" Margin="10,0,0,0"/>
 
     </Grid>
 </UserControl>
