@@ -4,7 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Caps"
+        xmlns:capShow="clr-namespace:Caps.CapShow"
+        xmlns:dataTypes="clr-namespace:Caps.CapShow.DataTypes"
         mc:Ignorable="d"
-        Title="CapShow" Height="151" Width="557" Opacity="0.8" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" Deactivated="Window_Deactivated" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
-    <Grid Height="151" VerticalAlignment="Top"/>
+        
+        Title="CapShow" Height="50" Width="500" Opacity="0.8" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" Deactivated="Window_Deactivated" KeyDown="Window_KeyDown" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <dataTypes:PopupIsOpenConverter x:Key="E2O"/>
+        <DataTemplate x:Key="QueryItemTemplate" DataType="dataTypes:QueryItem">
+            <Grid Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" Height="50" Width="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="90*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding QueryIcon}" Margin="5,5,5,5" Grid.RowSpan="2"/>
+                <TextBlock Text="{Binding QueryText}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" FontSize="24" Margin="10,0,0,0"/>
+                <TextBlock Text="{Binding DescriptionText}"  Grid.Column="1" Grid.Row="1"  FontSize="14" Margin="10,0,0,0"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <TextBox x:Name="TextBox" TextWrapping="Wrap" Text="Query goes here" Background="#FFCEFFF6"/>
+        <Popup x:Name="ItemPopup" PlacementTarget="{Binding ElementName=TextBox, Mode=OneWay}" 
+               Width="{Binding Width, ElementName=TextBox}"  IsOpen="{Binding Items.IsEmpty, ElementName=ItemList,Converter={StaticResource E2O}, Mode=OneWay}" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+            <ListBox x:Name="ItemList" Width="{Binding Width, ElementName=TextBox}"  ItemTemplate="{StaticResource QueryItemTemplate}" HorizontalContentAlignment="Center" BorderThickness="0"/>
+        </Popup>
+    </Grid>
 </Window>

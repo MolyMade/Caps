@@ -85,13 +85,8 @@
       <DependentUpon>CapShow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CapShow\DataTypes\ItemTriggeredEvent.cs" />
+    <Compile Include="CapShow\DataTypes\Converters.cs" />
     <Compile Include="CapShow\DataTypes\QueryItem.cs" />
-    <Compile Include="CapShow\QueryBox.xaml.cs">
-      <DependentUpon>QueryBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CapShow\QueryBoxItem.xaml.cs">
-      <DependentUpon>QueryBoxItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ClipBoard\Clipboard.cs" />
     <Compile Include="ClipBoard\HandleOleApi.cs" />
     <Compile Include="ClipBoard\Structures\Command.cs" />
@@ -124,14 +119,6 @@
       <DependentUpon>CapMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="CapShow\QueryBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CapShow\QueryBoxItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Misc\ExtensionMethods.cs" />

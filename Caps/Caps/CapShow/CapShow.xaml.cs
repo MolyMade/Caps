@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using Caps.CapShow.DataTypes;
 
 namespace Caps.CapShow
 {
@@ -9,10 +13,13 @@ namespace Caps.CapShow
 	/// </summary>
 	public partial class CapShow : Window
 	{
+		ObservableCollection<QueryItem> a = new ObservableCollection<QueryItem>();
 		public CapShow()
 		{
 			InitializeComponent();
 			//this.TextBox.Focus();
+			a.Add(new QueryItem("sssssssssss", "bbbbb"));
+			ItemList.ItemsSource = a;
 		}
 
 
@@ -31,13 +38,10 @@ namespace Caps.CapShow
 
 		private void Window_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-
+			
 		}
 
-		private void textBox_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			this.Left = e.GetPosition(this).X - this.Left;
-			this.Top = e.GetPosition(this).Y - this.Top;
-		}
+		
+
 	}
 }
